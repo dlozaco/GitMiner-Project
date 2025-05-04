@@ -4,7 +4,6 @@ package aiss.githubminer.model;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,21 +15,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "nodes"
 })
-@Generated("jsonschema2pojo")
+
 public class Comments {
 
     @JsonProperty("nodes")
-    private List<Node__2> nodes;
+    private List<Comment> nodes;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("nodes")
-    public List<Node__2> getNodes() {
+    public List<Comment> getNodes() {
         return nodes;
     }
 
     @JsonProperty("nodes")
-    public void setNodes(List<Node__2> nodes) {
+    public void setNodes(List<Comment> nodes) {
         this.nodes = nodes;
     }
 

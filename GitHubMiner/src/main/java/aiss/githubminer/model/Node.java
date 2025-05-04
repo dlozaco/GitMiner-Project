@@ -3,7 +3,6 @@ package aiss.githubminer.model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "author",
     "url"
 })
-@Generated("jsonschema2pojo")
+
 public class Node {
 
     @JsonProperty("id")

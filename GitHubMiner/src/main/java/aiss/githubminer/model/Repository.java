@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "data"
 })
 
-public class Project {
+public class Repository {
 
     @JsonProperty("data")
     private Data data;

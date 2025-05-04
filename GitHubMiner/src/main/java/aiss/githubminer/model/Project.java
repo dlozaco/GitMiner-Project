@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "issues"
 })
 
-public class Repository {
+public class Project {
 
     @JsonProperty("id")
     private String id;

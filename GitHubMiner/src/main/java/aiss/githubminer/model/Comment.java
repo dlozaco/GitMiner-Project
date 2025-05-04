@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "author"
 })
 
-public class CommentsNode {
+public class Comment {
 
     @JsonProperty("id")
     private String id;
@@ -30,7 +30,7 @@ public class CommentsNode {
     @JsonProperty("updatedAt")
     private String updatedAt;
     @JsonProperty("author")
-    private CommentsAuthor author;
+    private Author author;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -75,12 +75,12 @@ public class CommentsNode {
     }
 
     @JsonProperty("author")
-    public CommentsAuthor getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
     @JsonProperty("author")
-    public void setAuthor(CommentsAuthor author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
