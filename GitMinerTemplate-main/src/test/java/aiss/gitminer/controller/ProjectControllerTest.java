@@ -30,7 +30,7 @@ public class ProjectControllerTest {
     void testCreateProject(){
         Project project = new Project("tetrio", "hola.com");
         Project createdProject = projectController.createProject(project);
-        asset
+
     }
 
 }
