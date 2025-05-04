@@ -1,5 +1,5 @@
 
-package model;
+package aiss.bitbucketminer.model;
 
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
