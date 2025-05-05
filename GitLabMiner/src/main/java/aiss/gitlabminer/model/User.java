@@ -6,20 +6,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
+//    id in GitMiner model
     @JsonProperty("id")
     private Integer id;
+
+//    username in GitMiner model
     @JsonProperty("username")
     private String username;
+
     @JsonProperty("public_email")
     private String publicEmail;
+
+//    name in GitMiner model
     @JsonProperty("name")
     private String name;
     @JsonProperty("state")
     private String state;
     @JsonProperty("locked")
     private Boolean locked;
+
+//    avatar_url in GitMiner model
     @JsonProperty("avatar_url")
     private String avatarUrl;
+
+//    web_url in GitMiner model
     @JsonProperty("web_url")
     private String webUrl;
 

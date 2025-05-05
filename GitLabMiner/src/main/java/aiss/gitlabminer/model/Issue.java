@@ -44,33 +44,17 @@ public class Issue {
     @JsonProperty("closed_at")
     private Object closedAt;
 
-    @JsonProperty("closed_by")
-    private Object closedBy;
-
 //    labels in GitMiner model
     @JsonProperty("labels")
     private List<String> labels;
-
-    @JsonProperty("milestone")
-    private Object milestone;
-
-    @JsonProperty("assignees")
-    private List<Object> assignees;
 
 //    author_id in GitMiner model
     @JsonProperty("author")
     private User author;
 
-    @JsonProperty("type")
-    private String type;
-
 //    assignee_id in GitMiner model
     @JsonProperty("assignee")
     private User assignee;
-    @JsonProperty("user_notes_count")
-    private Integer userNotesCount;
-    @JsonProperty("merge_requests_count")
-    private Integer mergeRequestsCount;
 
 //    votes in GitMiner model
     @JsonProperty("upvotes")
@@ -79,33 +63,6 @@ public class Issue {
 //    votes in GitMiner model
     @JsonProperty("downvotes")
     private Integer downvotes;
-    @JsonProperty("due_date")
-    private Object dueDate;
-    @JsonProperty("confidential")
-    private Boolean confidential;
-    @JsonProperty("discussion_locked")
-    private Object discussionLocked;
-    @JsonProperty("issue_type")
-    private String issueType;
-    @JsonProperty("web_url")
-    private String webUrl;
-    @JsonProperty("blocking_issues_count")
-    private Integer blockingIssuesCount;
-    @JsonProperty("has_tasks")
-    private Boolean hasTasks;
-    @JsonProperty("task_status")
-    private String taskStatus;
-
-    @JsonProperty("severity")
-    private String severity;
-    @JsonProperty("moved_to_id")
-    private Object movedToId;
-    @JsonProperty("imported")
-    private Boolean imported;
-    @JsonProperty("imported_from")
-    private String importedFrom;
-    @JsonProperty("service_desk_reply_to")
-    private Object serviceDeskReplyTo;
 
     @JsonProperty("id")
     public Integer getId() {
@@ -197,16 +154,6 @@ public class Issue {
         this.closedAt = closedAt;
     }
 
-    @JsonProperty("closed_by")
-    public Object getClosedBy() {
-        return closedBy;
-    }
-
-    @JsonProperty("closed_by")
-    public void setClosedBy(Object closedBy) {
-        this.closedBy = closedBy;
-    }
-
     @JsonProperty("labels")
     public List<String> getLabels() {
         return labels;
@@ -215,26 +162,6 @@ public class Issue {
     @JsonProperty("labels")
     public void setLabels(List<String> labels) {
         this.labels = labels;
-    }
-
-    @JsonProperty("milestone")
-    public Object getMilestone() {
-        return milestone;
-    }
-
-    @JsonProperty("milestone")
-    public void setMilestone(Object milestone) {
-        this.milestone = milestone;
-    }
-
-    @JsonProperty("assignees")
-    public List<Object> getAssignees() {
-        return assignees;
-    }
-
-    @JsonProperty("assignees")
-    public void setAssignees(List<Object> assignees) {
-        this.assignees = assignees;
     }
 
     @JsonProperty("author")
@@ -247,16 +174,6 @@ public class Issue {
         this.author = author;
     }
 
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
-
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @JsonProperty("assignee")
     public User getAssignee() {
         return assignee;
@@ -265,26 +182,6 @@ public class Issue {
     @JsonProperty("assignee")
     public void setAssignee(User assignee) {
         this.assignee = assignee;
-    }
-
-    @JsonProperty("user_notes_count")
-    public Integer getUserNotesCount() {
-        return userNotesCount;
-    }
-
-    @JsonProperty("user_notes_count")
-    public void setUserNotesCount(Integer userNotesCount) {
-        this.userNotesCount = userNotesCount;
-    }
-
-    @JsonProperty("merge_requests_count")
-    public Integer getMergeRequestsCount() {
-        return mergeRequestsCount;
-    }
-
-    @JsonProperty("merge_requests_count")
-    public void setMergeRequestsCount(Integer mergeRequestsCount) {
-        this.mergeRequestsCount = mergeRequestsCount;
     }
 
     @JsonProperty("upvotes")
@@ -305,136 +202,6 @@ public class Issue {
     @JsonProperty("downvotes")
     public void setDownvotes(Integer downvotes) {
         this.downvotes = downvotes;
-    }
-
-    @JsonProperty("due_date")
-    public Object getDueDate() {
-        return dueDate;
-    }
-
-    @JsonProperty("due_date")
-    public void setDueDate(Object dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    @JsonProperty("confidential")
-    public Boolean getConfidential() {
-        return confidential;
-    }
-
-    @JsonProperty("confidential")
-    public void setConfidential(Boolean confidential) {
-        this.confidential = confidential;
-    }
-
-    @JsonProperty("discussion_locked")
-    public Object getDiscussionLocked() {
-        return discussionLocked;
-    }
-
-    @JsonProperty("discussion_locked")
-    public void setDiscussionLocked(Object discussionLocked) {
-        this.discussionLocked = discussionLocked;
-    }
-
-    @JsonProperty("issue_type")
-    public String getIssueType() {
-        return issueType;
-    }
-
-    @JsonProperty("issue_type")
-    public void setIssueType(String issueType) {
-        this.issueType = issueType;
-    }
-
-    @JsonProperty("web_url")
-    public String getWebUrl() {
-        return webUrl;
-    }
-
-    @JsonProperty("web_url")
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
-    }
-
-    @JsonProperty("blocking_issues_count")
-    public Integer getBlockingIssuesCount() {
-        return blockingIssuesCount;
-    }
-
-    @JsonProperty("blocking_issues_count")
-    public void setBlockingIssuesCount(Integer blockingIssuesCount) {
-        this.blockingIssuesCount = blockingIssuesCount;
-    }
-
-    @JsonProperty("has_tasks")
-    public Boolean getHasTasks() {
-        return hasTasks;
-    }
-
-    @JsonProperty("has_tasks")
-    public void setHasTasks(Boolean hasTasks) {
-        this.hasTasks = hasTasks;
-    }
-
-    @JsonProperty("task_status")
-    public String getTaskStatus() {
-        return taskStatus;
-    }
-
-    @JsonProperty("task_status")
-    public void setTaskStatus(String taskStatus) {
-        this.taskStatus = taskStatus;
-    }
-
-    @JsonProperty("severity")
-    public String getSeverity() {
-        return severity;
-    }
-
-    @JsonProperty("severity")
-    public void setSeverity(String severity) {
-        this.severity = severity;
-    }
-
-    @JsonProperty("moved_to_id")
-    public Object getMovedToId() {
-        return movedToId;
-    }
-
-    @JsonProperty("moved_to_id")
-    public void setMovedToId(Object movedToId) {
-        this.movedToId = movedToId;
-    }
-
-    @JsonProperty("imported")
-    public Boolean getImported() {
-        return imported;
-    }
-
-    @JsonProperty("imported")
-    public void setImported(Boolean imported) {
-        this.imported = imported;
-    }
-
-    @JsonProperty("imported_from")
-    public String getImportedFrom() {
-        return importedFrom;
-    }
-
-    @JsonProperty("imported_from")
-    public void setImportedFrom(String importedFrom) {
-        this.importedFrom = importedFrom;
-    }
-
-    @JsonProperty("service_desk_reply_to")
-    public Object getServiceDeskReplyTo() {
-        return serviceDeskReplyTo;
-    }
-
-    @JsonProperty("service_desk_reply_to")
-    public void setServiceDeskReplyTo(Object serviceDeskReplyTo) {
-        this.serviceDeskReplyTo = serviceDeskReplyTo;
     }
 
     @Override
@@ -477,41 +244,17 @@ public class Issue {
         sb.append('=');
         sb.append(((this.closedAt == null)?"<null>":this.closedAt));
         sb.append(',');
-        sb.append("closedBy");
-        sb.append('=');
-        sb.append(((this.closedBy == null)?"<null>":this.closedBy));
-        sb.append(',');
         sb.append("labels");
         sb.append('=');
         sb.append(((this.labels == null)?"<null>":this.labels));
-        sb.append(',');
-        sb.append("milestone");
-        sb.append('=');
-        sb.append(((this.milestone == null)?"<null>":this.milestone));
-        sb.append(',');
-        sb.append("assignees");
-        sb.append('=');
-        sb.append(((this.assignees == null)?"<null>":this.assignees));
         sb.append(',');
         sb.append("author");
         sb.append('=');
         sb.append(((this.author == null)?"<null>":this.author));
         sb.append(',');
-        sb.append("type");
-        sb.append('=');
-        sb.append(((this.type == null)?"<null>":this.type));
-        sb.append(',');
         sb.append("assignee");
         sb.append('=');
         sb.append(((this.assignee == null)?"<null>":this.assignee));
-        sb.append(',');
-        sb.append("userNotesCount");
-        sb.append('=');
-        sb.append(((this.userNotesCount == null)?"<null>":this.userNotesCount));
-        sb.append(',');
-        sb.append("mergeRequestsCount");
-        sb.append('=');
-        sb.append(((this.mergeRequestsCount == null)?"<null>":this.mergeRequestsCount));
         sb.append(',');
         sb.append("upvotes");
         sb.append('=');
@@ -520,58 +263,6 @@ public class Issue {
         sb.append("downvotes");
         sb.append('=');
         sb.append(((this.downvotes == null)?"<null>":this.downvotes));
-        sb.append(',');
-        sb.append("dueDate");
-        sb.append('=');
-        sb.append(((this.dueDate == null)?"<null>":this.dueDate));
-        sb.append(',');
-        sb.append("confidential");
-        sb.append('=');
-        sb.append(((this.confidential == null)?"<null>":this.confidential));
-        sb.append(',');
-        sb.append("discussionLocked");
-        sb.append('=');
-        sb.append(((this.discussionLocked == null)?"<null>":this.discussionLocked));
-        sb.append(',');
-        sb.append("issueType");
-        sb.append('=');
-        sb.append(((this.issueType == null)?"<null>":this.issueType));
-        sb.append(',');
-        sb.append("webUrl");
-        sb.append('=');
-        sb.append(((this.webUrl == null)?"<null>":this.webUrl));
-        sb.append(',');
-        sb.append("blockingIssuesCount");
-        sb.append('=');
-        sb.append(((this.blockingIssuesCount == null)?"<null>":this.blockingIssuesCount));
-        sb.append(',');
-        sb.append("hasTasks");
-        sb.append('=');
-        sb.append(((this.hasTasks == null)?"<null>":this.hasTasks));
-        sb.append(',');
-        sb.append("taskStatus");
-        sb.append('=');
-        sb.append(((this.taskStatus == null)?"<null>":this.taskStatus));
-        sb.append(',');
-        sb.append("severity");
-        sb.append('=');
-        sb.append(((this.severity == null)?"<null>":this.severity));
-        sb.append(',');
-        sb.append("movedToId");
-        sb.append('=');
-        sb.append(((this.movedToId == null)?"<null>":this.movedToId));
-        sb.append(',');
-        sb.append("imported");
-        sb.append('=');
-        sb.append(((this.imported == null)?"<null>":this.imported));
-        sb.append(',');
-        sb.append("importedFrom");
-        sb.append('=');
-        sb.append(((this.importedFrom == null)?"<null>":this.importedFrom));
-        sb.append(',');
-        sb.append("serviceDeskReplyTo");
-        sb.append('=');
-        sb.append(((this.serviceDeskReplyTo == null)?"<null>":this.serviceDeskReplyTo));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
