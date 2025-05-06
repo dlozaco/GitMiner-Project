@@ -60,6 +60,26 @@ public class Project {
         this.webUrl = webUrl;
     }
 
+    @JsonProperty("commits")
+    public List<Commit> getCommits() {
+        return commits;
+    }
+
+    @JsonProperty("commits")
+    public void setCommits(List<Commit> commits) {
+        this.commits = commits;
+    }
+
+    @JsonProperty("issues")
+    public List<Issue> getIssues() {
+        return issues;
+    }
+
+    @JsonProperty("issues")
+    public void setIssues(List<Issue> issues) {
+        this.issues = issues;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -75,6 +95,14 @@ public class Project {
         sb.append("webUrl");
         sb.append('=');
         sb.append(((this.webUrl == null)?"<null>":this.webUrl));
+        sb.append(',');
+        sb.append("commits");
+        sb.append('=');
+        sb.append(((this.commits == null)?"<null>":this.commits));
+        sb.append(',');
+        sb.append("issues");
+        sb.append('=');
+        sb.append(((this.issues == null)?"<null>":this.issues));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

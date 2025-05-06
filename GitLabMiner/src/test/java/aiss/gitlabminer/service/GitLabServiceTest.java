@@ -1,5 +1,6 @@
 package aiss.gitlabminer.service;
 
+import aiss.gitlabminer.model.Project;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,10 @@ class GitLabServiceTest {
     @Test
     @DisplayName( "Test for getProject method")
     void getProject() {
-        System.out.println(gitLabService.getProject("gitlab-org", "gitlab"));
+        Project project = gitLabService.getProject("gitlab-org", "gitlab");
+/*        System.out.println(project);
+        System.out.println(project.getCommits());*/
+//        System.out.println(project.getIssues().stream().filter(issue -> issue.getComments().size()>0).findFirst().get().getComments());
+        System.out.println(project);
     }
 }

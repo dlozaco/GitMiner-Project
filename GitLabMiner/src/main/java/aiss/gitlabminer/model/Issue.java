@@ -64,6 +64,8 @@ public class Issue {
     @JsonProperty("downvotes")
     private Integer downvotes;
 
+    private List<Comment> comments;
+
     @JsonProperty("id")
     public Integer getId() {
         return id;
@@ -204,6 +206,14 @@ public class Issue {
         this.downvotes = downvotes;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -263,6 +273,9 @@ public class Issue {
         sb.append("downvotes");
         sb.append('=');
         sb.append(((this.downvotes == null)?"<null>":this.downvotes));
+        sb.append("comments");
+        sb.append('=');
+        sb.append(((this.comments == null)?"<null>":this.comments));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
