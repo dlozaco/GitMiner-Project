@@ -1,5 +1,5 @@
 
-package aiss.githubminer.model.Issue;
+package aiss.githubminer.model.issue;
 
 import java.util.List;
 

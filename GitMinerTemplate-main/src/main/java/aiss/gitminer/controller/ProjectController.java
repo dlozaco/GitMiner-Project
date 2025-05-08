@@ -26,10 +26,7 @@ public class ProjectController {
             tags = { "projects", "get all" }
     )
     @GetMapping
-    public List<Project> findAllProjects(){
-        List<Project> gitMinerProjects = projectRepository.findAll();
-        return gitMinerProjects;
-    }
+    public List<Project> findAllProjects(){ return  projectRepository.findAll(); }
 
     //POST
     @Operation(
@@ -39,9 +36,30 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.CREATED)
     public Project createProject(@Valid @RequestBody Project project){
         Project newProject = projectRepository.save(
-            new Project(project.getName(), project.getWebUrl())
+            new Project()
         );
+        newProject.setName(project.getName());
+        newProject.setWebUrl(project.getWebUrl());
         return project;
+    }
+
+    //PUT
+    @Operation(
+            summary = "Update a GitMiner project",
+            tags = { "project", "put" }
+    )
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateProject(@PathVariable(value = "id") String id, @Valid @RequestBody Project body){
+        Optional<Project> projectData = projectRepository.findById(id);
+
+        Project project = projectData.get();
+        project.setName(body.getName());
+        project.setWebUrl(body.getWebUrl());
+        project.setCommits(body.getCommits());
+        project.setIssues(body.getIssues());
+
+        projectRepository.save(project);
     }
 
 
