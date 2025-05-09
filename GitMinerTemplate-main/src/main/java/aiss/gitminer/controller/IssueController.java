@@ -36,13 +36,13 @@ public class IssueController {
     }
 
     @GetMapping("/{id}")
-    public Issue getIssueById(@PathVariable Long id) {
+    public Issue getIssueById(@PathVariable String id) {
         Optional<Issue> issue = issueRepository.findById(id);
         return issue.orElse(null);
     }
 
     @GetMapping("/{id}/comments")
-    public List<Comment>  getAllCommentsByIssueId(@PathVariable Long id) {
+    public List<Comment>  getAllCommentsByIssueId(@PathVariable String id) {
         Issue issue = getIssueById(id);
         return issue.getComments();
     }
