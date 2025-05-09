@@ -6,59 +6,50 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Issue {
+public class IssueParsed {
 
-//    id in GitMiner model
+    //    id in GitMiner model
     @JsonProperty("id")
     private Integer id;
 
-//    needed to get the comments  -> GET /projects/:id/issues/:issue_iid/notes
-    @JsonProperty("iid")
-    private Integer iid;
-
-//    title in GitMiner model
+    //    title in GitMiner model
     @JsonProperty("title")
     private String title;
 
-//    description in GitMiner model
+    //    description in GitMiner model
     @JsonProperty("description")
     private String description;
 
-//    state in GitMiner model
+    //    state in GitMiner model
     @JsonProperty("state")
     private String state;
 
-//    created_at in GitMiner model
+    //    created_at in GitMiner model
     @JsonProperty("created_at")
     private String createdAt;
 
-//    updated_at in GitMiner model
+    //    updated_at in GitMiner model
     @JsonProperty("updated_at")
     private String updatedAt;
 
-//    closed_at in GitMiner model
+    //    closed_at in GitMiner model
     @JsonProperty("closed_at")
     private String closedAt;
 
-//    labels in GitMiner model
+    //    labels in GitMiner model
     @JsonProperty("labels")
     private List<String> labels;
 
-//    author_id in GitMiner model
+    //    author_id in GitMiner model
     @JsonProperty("author")
     private User author;
 
-//    assignee_id in GitMiner model
+    //    assignee_id in GitMiner model
     @JsonProperty("assignee")
     private User assignee;
 
-//    votes in GitMiner model
-    @JsonProperty("upvotes")
-    private Integer upvotes;
-
-//    votes in GitMiner model
-    @JsonProperty("downvotes")
-    private Integer downvotes;
+    @JsonProperty("votes")
+    private Integer votes;
 
     @JsonProperty("comments")
     private List<Comment> comments;
@@ -71,16 +62,6 @@ public class Issue {
     @JsonProperty("id")
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @JsonProperty("iid")
-    public Integer getIid() {
-        return iid;
-    }
-
-    @JsonProperty("iid")
-    public void setIid(Integer iid) {
-        this.iid = iid;
     }
 
     @JsonProperty("title")
@@ -143,6 +124,16 @@ public class Issue {
         this.closedAt = closedAt;
     }
 
+    @JsonProperty("votes")
+    public Integer getVotes() {
+        return votes;
+    }
+
+    @JsonProperty("votes")
+    public void setVotes(Integer votes) {
+        this.votes = votes;
+    }
+
     @JsonProperty("labels")
     public List<String> getLabels() {
         return labels;
@@ -173,29 +164,6 @@ public class Issue {
         this.assignee = assignee;
     }
 
-    @JsonProperty("upvotes")
-    public Integer getUpvotes() {
-        return upvotes;
-    }
-
-    @JsonProperty("upvotes")
-    public void setUpvotes(Integer upvotes) {
-        this.upvotes = upvotes;
-    }
-
-    @JsonProperty("downvotes")
-    public Integer getDownvotes() {
-        return downvotes;
-    }
-
-    @JsonProperty("downvotes")
-    public void setDownvotes(Integer downvotes) {
-        this.downvotes = downvotes;
-    }
-
-    @JsonProperty("votes")
-    public Integer getVotes() { return upvotes + downvotes; }
-
     @JsonProperty("comments")
     public List<Comment> getComments() {
         return comments;
@@ -206,6 +174,22 @@ public class Issue {
         this.comments = comments;
     }
 
+    public IssueParsed(Integer id, String title, String description, String state, String createdAt, String updatedAt,
+                       String closedAt, List<String> labels, User author, User assignee, Integer votes, List<Comment> comments) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.state = state;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.closedAt = closedAt;
+        this.labels = labels;
+        this.author = author;
+        this.assignee = assignee;
+        this.votes = votes;
+        this.comments = comments;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -213,10 +197,6 @@ public class Issue {
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
-        sb.append("iid");
-        sb.append('=');
-        sb.append(((this.iid == null)?"<null>":this.iid));
         sb.append(',');
         sb.append("title");
         sb.append('=');
@@ -254,13 +234,9 @@ public class Issue {
         sb.append('=');
         sb.append(((this.assignee == null)?"<null>":this.assignee));
         sb.append(',');
-        sb.append("upvotes");
+        sb.append("votes");
         sb.append('=');
-        sb.append(((this.upvotes == null)?"<null>":this.upvotes));
-        sb.append(',');
-        sb.append("downvotes");
-        sb.append('=');
-        sb.append(((this.downvotes == null)?"<null>":this.downvotes));
+        sb.append(((this.votes == null)?"<null>":this.votes));
         sb.append(',');
         sb.append("comments");
         sb.append('=');

@@ -32,8 +32,9 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
 //        Get commits and issues and set them in the project class
         List<Commit> allCommits = new ArrayList<>();
         List<Issue> allIssues = new ArrayList<>();
+        List<IssueParsed> allIssuesParsed = new ArrayList<>();
 
-        Boolean hasNextPage = true;
+        boolean hasNextPage = true;
         Integer i = 1;
         while (hasNextPage) {
             Commit[] commits = restTemplate.exchange(
@@ -77,7 +78,14 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
             }
         }
 
-        if (!allIssues.isEmpty()) { project.setIssues(allIssues); }
+//        parse issues to GitMiner models
+        for (Issue issue : allIssues) {
+            IssueParsed parsedIssue = new IssueParsed(issue.getId(), issue.getTitle(), issue.getDescription(),
+                    issue.getState(), issue.getCreatedAt(), issue.getUpdatedAt(), issue.getClosedAt(), issue.getLabels(),
+                    issue.getAuthor(), issue.getAssignee(), issue.getVotes(), issue.getComments());
+            allIssuesParsed.add(parsedIssue);
+        }
+        if (!allIssuesParsed.isEmpty()) { project.setIssues(allIssuesParsed); }
 
 //        Get comments for each issue and set them in the issues
 //        Comments need authorization to get their info?
@@ -113,7 +121,7 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
         return project;
     }
 
-    public Project getAndPostToGitMiner(String owner, String name) {
+    public Project postToGitMiner(String owner, String name) {
         Project createdProject = null;
         Project project = getProject(owner, name);
         try {

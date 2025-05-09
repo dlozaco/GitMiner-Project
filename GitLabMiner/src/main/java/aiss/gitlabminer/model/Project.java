@@ -28,7 +28,7 @@ public class Project {
     private List<Commit> commits;
 
     @JsonProperty("issues")
-    private List<Issue> issues;
+    private List<IssueParsed> issues;
 
     @JsonProperty("id")
     public Integer getId() {
@@ -71,12 +71,12 @@ public class Project {
     }
 
     @JsonProperty("issues")
-    public List<Issue> getIssues() {
+    public List<IssueParsed> getIssues() {
         return issues;
     }
 
     @JsonProperty("issues")
-    public void setIssues(List<Issue> issues) {
+    public void setIssues(List<IssueParsed> issues) {
         this.issues = issues;
     }
 

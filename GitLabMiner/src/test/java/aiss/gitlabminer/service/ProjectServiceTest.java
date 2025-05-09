@@ -1,6 +1,5 @@
 package aiss.gitlabminer.service;
 
-import aiss.gitlabminer.model.Project;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ class ProjectServiceTest {
     }
 
     @Test
-    @DisplayName("Test for getAndPostToGitMiner method")
-    void getAndPostToGitMiner() {
+    @DisplayName("Test for postToGitMiner method")
+    void postToGitMiner() {
     }
 }
