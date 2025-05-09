@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Tag(name="Project Controller", description = "Project management API")
 @RestController
-@RequestMapping("/gitminer")
+@RequestMapping("/gitminer/projects")
 public class ProjectController {
 
     @Autowired
@@ -37,6 +37,7 @@ public class ProjectController {
             tags = { "project", "post" }
     )
     @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
     public Project createProject(@Valid @RequestBody Project project){
         Project newProject = projectRepository.save(
             new Project(project.getName(), project.getWebUrl())
