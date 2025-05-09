@@ -26,7 +26,10 @@ public class ProjectController {
             tags = { "projects", "get all" }
     )
     @GetMapping
-    public List<Project> findAllProjects(){ return  projectRepository.findAll(); }
+    public List<Project> findAllProjects(){
+        List<Project> gitMinerProjects = projectRepository.findAll();
+        return gitMinerProjects;
+    }
 
     //POST
     @Operation(
@@ -36,12 +39,7 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Project createProject(@Valid @RequestBody Project project){
-        Project newProject = projectRepository.save(
-            new Project()
-        );
-        newProject.setName(project.getName());
-        newProject.setWebUrl(project.getWebUrl());
-        return project;
+        return projectRepository.save(project);
     }
 
     //PUT
@@ -62,6 +60,5 @@ public class ProjectController {
 
         projectRepository.save(project);
     }
-
 
 }
