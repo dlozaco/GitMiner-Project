@@ -3,6 +3,7 @@ package aiss.gitminer.controller;
 
 import aiss.gitminer.model.Comment;
 import aiss.gitminer.model.Issue;
+import aiss.gitminer.repository.CommentRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 @Tag(name="Comment Controller", description = "Comment management API")
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/gitminer")
 public class   CommentController {
 
     @Autowired
@@ -45,9 +46,10 @@ public class   CommentController {
             tags={"comments","find by id"}
     )
     @GetMapping("/comments/{commentId}")
-    public Comment findById(@PathVariable (value="id") long issueId) {
+    public Comment findById(@PathVariable (value="id") String issueId) {
 
-
+        Optional<Comment> iss= repository.findById(issueId);
+        return iss.get();
 
     }
 
