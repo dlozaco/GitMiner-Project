@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 
 /*For the request of a project by its owner and name, the path https://gitlab.com/api/v4/projects/ only takes one
 argument which is the full path owner/project, so, for the path to not process each one as a different argument, / must be
@@ -18,10 +19,12 @@ public class Project {
 
 //    name in GitMiner model
     @JsonProperty("name")
+    @NotEmpty(message = "The field name cannot be empty.")
     private String name;
 
 //    web_url in GitMiner model
     @JsonProperty("web_url")
+    @NotEmpty(message = "The field web_url cannot be empty.")
     private String webUrl;
 
     @JsonProperty("commits")

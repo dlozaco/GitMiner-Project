@@ -4,16 +4,19 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Issue {
 
 //    id in GitMiner model
     @JsonProperty("id")
+    @NotEmpty(message = "The field id cannot be empty.")
     private Integer id;
 
 //    needed to get the comments  -> GET /projects/:id/issues/:issue_iid/notes
     @JsonProperty("iid")
+    @NotEmpty(message = "The field iid cannot be empty.")
     private Integer iid;
 
 //    title in GitMiner model

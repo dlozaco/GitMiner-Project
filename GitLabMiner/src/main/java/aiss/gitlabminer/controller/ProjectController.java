@@ -1,8 +1,10 @@
 package aiss.gitlabminer.controller;
 
+import aiss.gitlabminer.exception.ProjectNotFoundException;
 import aiss.gitlabminer.model.Project;
 import aiss.gitlabminer.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,23 +20,19 @@ public class ProjectController {
 
     @GetMapping("/{owner}/{name}")
     public Project getProject(@PathVariable String owner, @PathVariable String name,
-            @RequestParam(defaultValue = "5") Integer nCommits, @RequestParam(defaultValue = "5") Integer nIssues) throws Exception {
+                        @RequestParam(defaultValue = "5") Integer nCommits, @RequestParam(defaultValue = "5") Integer nIssues) throws ProjectNotFoundException {
         Project project = projectService.getProject(owner, name);
         if (project != null) {
             return project;
         } else {
-            throw new Exception("ERROR RETRIEVING PROJECT");
+            throw new ProjectNotFoundException();
         }
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{owner}/{name}")
     public Project postToGitMiner(@PathVariable String owner, @PathVariable String name,
-                              @RequestParam(defaultValue = "5") Integer nCommits, @RequestParam(defaultValue = "5") Integer nIssues) throws Exception {
-        Project project = projectService.postToGitMiner(owner, name);
-        if (project != null) {
-            return project;
-        } else {
-            throw new Exception("ERROR SENDING PROJECT TO GITMINER");
-        }
+                        @RequestParam(defaultValue = "5") Integer nCommits, @RequestParam(defaultValue = "5") Integer nIssues) {
+        return projectService.postToGitMiner(owner, name);
     }
 }

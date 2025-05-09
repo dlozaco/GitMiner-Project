@@ -1,8 +1,7 @@
 package aiss.githubminer.service;
 
 import aiss.githubminer.model.Project;
-import aiss.githubminer.model.commit.Commit;
-import aiss.githubminer.model.issue.Issue;
+
 import aiss.githubminer.parsedmodel.ParsedCommit;
 import aiss.githubminer.parsedmodel.ParsedIssue;
 import aiss.githubminer.parsedmodel.ParsedProject;

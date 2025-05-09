@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IssueParsed {
 
     //    id in GitMiner model
     @JsonProperty("id")
+    @NotEmpty(message = "The field id cannot be empty.")
     private Integer id;
 
     //    title in GitMiner model
