@@ -47,9 +47,9 @@ public class   CommentController {
             tags={"comments","find by id"}
     )
     @GetMapping("/comments/{commentId}")
-    public Comment findCommentById(@PathVariable (value="id") String issueId) {
+    public Comment findCommentById(@PathVariable (value="id") String commentId) {
 
-        Optional<Comment> iss= repository.findById(issueId);
+        Optional<Comment> iss= repository.findById(commentId);
         return iss.get();
 
     }
