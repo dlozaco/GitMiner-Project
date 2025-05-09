@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Commit {
 
 //    id in GitMiner model
     @JsonProperty("id")
+    @NotEmpty(message = "The field id cannot be empty.")
     private String id;
 
 //    title in GitMiner model
@@ -22,6 +24,7 @@ public class Commit {
 
 //    author_name in GitMiner model
     @JsonProperty("author_name")
+    @NotEmpty(message = "The field author_name cannot be empty.")
     private String authorName;
 
 //    author_email in GitMiner model
@@ -30,10 +33,12 @@ public class Commit {
 
 //    authored_date in GitMiner model
     @JsonProperty("authored_date")
+    @NotEmpty(message = "The field authored_date cannot be empty.")
     private String authoredDate;
 
 //    web_url in GitMiner model
     @JsonProperty("web_url")
+    @NotEmpty(message = "The field web_url cannot be empty.")
     private String webUrl;
 
     @JsonProperty("id")

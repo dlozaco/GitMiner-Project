@@ -2,6 +2,7 @@ package aiss.gitlabminer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
@@ -12,6 +13,7 @@ public class User {
 
 //    username in GitMiner model
     @JsonProperty("username")
+    @NotEmpty(message = "The field username cannot be empty.")
     private String username;
 
 //    name in GitMiner model

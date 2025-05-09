@@ -2,16 +2,19 @@ package aiss.gitlabminer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Comment {
 
 //    id in GitMiner model
     @JsonProperty("id")
+    @NotEmpty(message = "The comment must have an id")
     private Long id;
 
 //    body in GitMiner model
     @JsonProperty("body")
+    @NotEmpty(message = "The comment must have a body")
     private String body;
 
 //    author in GitMiner model
@@ -20,6 +23,7 @@ public class Comment {
 
 //    created_at in GitMiner model
     @JsonProperty("created_at")
+    @NotEmpty(message = "The field created_at cannot be empty.")
     private String createdAt;
 
 //    updated_at in GitMiner model
