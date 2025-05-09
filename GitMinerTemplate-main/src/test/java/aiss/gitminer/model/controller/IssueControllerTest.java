@@ -27,15 +27,15 @@ class IssueControllerTest {
     @Test
     @DisplayName("Get issue by ID")
     void getIssueById() {
-        assertNotNull(issueController.getIssueById(1L), "Issue not found");
-        Issue issue = issueController.getIssueById(1L);
+        assertNotNull(issueController.getIssueById("1"), "Issue not found");
+        Issue issue = issueController.getIssueById("1");
         System.out.println(issue);
     }
 
     @Test
     void getAllCommentsByIssueId() {
-        assertNotNull(issueController.getAllCommentsByIssueId(1L), "Issue not found");
-        List<Comment> comments = issueController.getAllCommentsByIssueId(1L);
+        assertNotNull(issueController.getAllCommentsByIssueId("1"), "Issue not found");
+        List<Comment> comments = issueController.getAllCommentsByIssueId("1");
         System.out.println(comments);
     }
 }
