@@ -1,19 +1,16 @@
 package aiss.gitlabminer.service;
 
-import aiss.gitlabminer.model.Comment;
-import aiss.gitlabminer.model.Commit;
-import aiss.gitlabminer.model.Issue;
-import aiss.gitlabminer.model.Project;
+import aiss.gitlabminer.model.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class GitLabService {
+public class ProjectService {
 
     @Autowired
     RestTemplate restTemplate;

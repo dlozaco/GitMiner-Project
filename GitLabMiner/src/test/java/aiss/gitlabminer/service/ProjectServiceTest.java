@@ -6,18 +6,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
-class GitLabServiceTest {
+class ProjectServiceTest {
 
     @Autowired
-    GitLabService gitLabService;
+    ProjectService projectService;
 
     @Test
     @DisplayName( "Test for getProject method")
     void getProject() {
-        Project project = gitLabService.getProject("gitlab-org", "gitlab");
+        Project project = projectService.getProject("gitlab-org", "gitlab");
 /*        System.out.println(project);
         System.out.println(project.getCommits());*/
 //        System.out.println(project.getIssues().stream().filter(issue -> issue.getComments().size()>0).findFirst().get().getComments());
