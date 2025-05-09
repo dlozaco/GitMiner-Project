@@ -4,6 +4,7 @@ import aiss.githubminer.model.Project;
 import aiss.githubminer.model.commit.Commit;
 import aiss.githubminer.model.issue.Issue;
 import aiss.githubminer.parsedmodel.ParsedCommit;
+import aiss.githubminer.parsedmodel.ParsedIssue;
 import aiss.githubminer.parsedmodel.ParsedProject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,20 +38,20 @@ public class ProjectService {
     public ParsedProject getProject(String owner, String repo){
         String url = baseUri + owner + "/" + repo;
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer" + token);
+        headers.set("Authorization", "Bearer " + token);
 
         HttpEntity<Project> request = new HttpEntity<>(null, headers);
         ResponseEntity<Project> response = restTemplate.exchange(url, HttpMethod.GET, request, Project.class);
         Project project = response.getBody();
         List<ParsedCommit> commits = commitService.getAllCommits(owner, repo);
-        Issue[] issues = issueService.getAllIssues(owner, repo);
+        List<ParsedIssue> issues = issueService.getAllIssues(owner, repo);
 
         ParsedProject parsedProject = new ParsedProject(
                 project.getId(),
                 project.getName(),
                 project.getHtmlUrl(),
                 commits,
-                Arrays.stream(issues).toList()
+                issues
         );
 
         return parsedProject;

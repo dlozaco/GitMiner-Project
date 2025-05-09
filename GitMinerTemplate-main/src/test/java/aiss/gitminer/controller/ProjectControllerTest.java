@@ -28,7 +28,7 @@ public class ProjectControllerTest {
     @Test
     @DisplayName("Create a new project")
     void testCreateProject(){
-        Project project = new Project("tetrio", "hola.com");
+        Project project = new Project();
         Project createdProject = projectController.createProject(project);
 
     }

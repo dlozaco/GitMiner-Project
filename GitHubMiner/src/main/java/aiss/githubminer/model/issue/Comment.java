@@ -9,12 +9,23 @@ public class Comment {
 
     @JsonProperty("id")
     private Long id;
+    @JsonProperty("body")
+    private String body;
     @JsonProperty("created_at")
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
-    @JsonProperty("body")
-    private String body;
+    @JsonProperty("user")
+    private User user;
+
+    @JsonProperty("user")
+    public User getUser() {
+        return user;
+    }
+    @JsonProperty("user")
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @JsonProperty("id")
     public Long getId() { return id; }

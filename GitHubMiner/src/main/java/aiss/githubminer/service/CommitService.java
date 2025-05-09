@@ -6,6 +6,10 @@ import aiss.githubminer.model.commit.Commit__1;
 import aiss.githubminer.parsedmodel.ParsedCommit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,9 +30,14 @@ public class CommitService {
     String baseUri = "https://api.github.com/repos/";
 
     public List<ParsedCommit> getAllCommits(String owner, String repo) {
-        List<Commit> commits = new ArrayList<>();
         String url = baseUri + owner + "/" + repo + "/commits";
-        commits = Arrays.stream(restTemplate.getForObject(url, Commit[].class)).toList();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        HttpEntity<Commit[]> request = new HttpEntity<>(null, headers);
+        ResponseEntity<Commit[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Commit[].class);
+
+        List<Commit> commits = Arrays.asList(response.getBody());
         List<ParsedCommit> parsedCommits = parseCommits(commits);
 
         return parsedCommits;

@@ -1,6 +1,7 @@
 package aiss.githubminer.controller;
 
 import aiss.githubminer.model.Project;
+import aiss.githubminer.parsedmodel.ParsedProject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ class ProjectControllerTest {
         String owner = "dlozaco";
         String repo = "tetrio-comparator";
 
-        Project project = projectController.getProject(owner, repo);
+        ParsedProject project = projectController.getProject(owner, repo);
         assertNotNull(project, "The project is null");
         System.out.println(project);
     }

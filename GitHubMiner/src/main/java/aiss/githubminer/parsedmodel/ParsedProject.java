@@ -20,9 +20,9 @@ public class ParsedProject {
     @JsonProperty("commits")
     private List<ParsedCommit> commits;
     @JsonProperty("issues")
-    private List<Issue> issues;
+    private List<ParsedIssue> issues;
 
-    public ParsedProject(Integer id, String name, String htmlUrl, List<ParsedCommit> commits, List<Issue> issues){
+    public ParsedProject(Integer id, String name, String htmlUrl, List<ParsedCommit> commits, List<ParsedIssue> issues){
         this.id = id;
         this.name = name;
         this.htmlUrl = htmlUrl;
