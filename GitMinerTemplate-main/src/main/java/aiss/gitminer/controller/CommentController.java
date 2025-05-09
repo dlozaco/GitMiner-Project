@@ -37,8 +37,8 @@ public class   CommentController {
     public List<Comment> findAllByIssueId(@PathVariable (value="id") String issueId) {
             Optional<Issue> issue = issueRepository.findById(issueId);
 
-            List<Comment> IssueComments= new ArrayList<>(issue.get().getComments());
-            return IssueComments;
+            List<Comment> issueComments= new ArrayList<>(issue.get().getComments());
+            return issueComments;
     }
 
     //GET
