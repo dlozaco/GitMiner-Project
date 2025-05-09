@@ -50,7 +50,7 @@ public class IssueService {
             }
             Integer votes = issue.getReactions().getTotalCount();
             ParsedIssue newIssue = new ParsedIssue(
-                    issue.getId(),
+                    String.valueOf(issue.getId()),
                     issue.getTitle(),
                     issue.getBody(),
                     issue.getState(),

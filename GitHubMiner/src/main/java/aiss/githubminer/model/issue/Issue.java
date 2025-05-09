@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Issue {
 
     @JsonProperty("id")
-    private Long id;
+    private String id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("body")
@@ -45,12 +45,12 @@ public class Issue {
     }
 
     @JsonProperty("id")
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -12,7 +12,7 @@ import java.util.List;
 public class ParsedProject {
 
     @JsonProperty("id")
-    private Integer id;
+    private String id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("html_url")
@@ -22,7 +22,7 @@ public class ParsedProject {
     @JsonProperty("issues")
     private List<ParsedIssue> issues;
 
-    public ParsedProject(Integer id, String name, String htmlUrl, List<ParsedCommit> commits, List<ParsedIssue> issues){
+    public ParsedProject(String id, String name, String htmlUrl, List<ParsedCommit> commits, List<ParsedIssue> issues){
         this.id = id;
         this.name = name;
         this.htmlUrl = htmlUrl;
@@ -31,12 +31,12 @@ public class ParsedProject {
     }
 
     @JsonProperty("id")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

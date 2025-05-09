@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Comment {
 
     @JsonProperty("id")
-    private Long id;
+    private String id;
     @JsonProperty("body")
     private String body;
     @JsonProperty("created_at")
@@ -28,10 +28,10 @@ public class Comment {
     }
 
     @JsonProperty("id")
-    public Long getId() { return id; }
+    public String getId() { return id; }
 
     @JsonProperty("id")
-    public void setId(Long id) { this.id = id; }
+    public void setId(String id) { this.id = id; }
 
     @JsonProperty("body")
     public String getBody() {
