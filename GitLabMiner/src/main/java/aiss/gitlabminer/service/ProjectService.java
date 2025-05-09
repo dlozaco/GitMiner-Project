@@ -127,7 +127,7 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
         Project createdProject = null;
         Project project = getProject(owner, name);
         try {
-            createdProject = restTemplate.postForObject("http://localhost:8080/gitminer", project, Project.class);
+            createdProject = restTemplate.postForObject("http://localhost:8080/gitminer/projects", project, Project.class);
         } catch (RestClientException e) {
             System.out.println("Error posting project to GitMiner: " + e.getMessage());
         }
