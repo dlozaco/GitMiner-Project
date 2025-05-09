@@ -242,6 +242,7 @@ public class IssueParsed {
         sb.append('=');
         sb.append(((this.comments == null)?"<null>":this.comments));
         sb.append(',');
+        sb.append('\n');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {

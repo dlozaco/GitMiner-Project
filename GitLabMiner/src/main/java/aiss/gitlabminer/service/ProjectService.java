@@ -55,7 +55,7 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
             }
         }
 
-        if (!allCommits.isEmpty()) { project.setCommits(allCommits); }
+        project.setCommits(allCommits);
 
         hasNextPage = true;
         i = 1;
@@ -85,11 +85,12 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
                     issue.getAuthor(), issue.getAssignee(), issue.getVotes(), issue.getComments());
             allIssuesParsed.add(parsedIssue);
         }
-        if (!allIssuesParsed.isEmpty()) { project.setIssues(allIssuesParsed); }
+
+        project.setIssues(allIssuesParsed);
 
 //        Get comments for each issue and set them in the issues
 //        Comments need authorization to get their info?
-        for (Issue issue : project.getIssues()) {
+        for (Issue issue : allIssues) {
             List<Comment> allComments = new ArrayList<>();
             hasNextPage = true;
             i = 1;
@@ -112,9 +113,10 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
                         hasNextPage = false;
                     }
                 }
-                if (!allComments.isEmpty()) { issue.setComments(allComments); }
             } catch (HttpClientErrorException.Unauthorized e) {
                 System.out.println("Error getting comments for issue " + issue.getIid() + ": " + e.getMessage());
+            } finally {
+                issue.setComments(allComments);
             }
         }
 
@@ -125,7 +127,7 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
         Project createdProject = null;
         Project project = getProject(owner, name);
         try {
-            createdProject = restTemplate.postForObject("http://localhost:8080/gitminer/projects", project, Project.class);
+            createdProject = restTemplate.postForObject("http://localhost:8080/gitminer", project, Project.class);
         } catch (RestClientException e) {
             System.out.println("Error posting project to GitMiner: " + e.getMessage());
         }

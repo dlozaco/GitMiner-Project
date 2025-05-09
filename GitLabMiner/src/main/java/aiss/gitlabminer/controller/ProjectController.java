@@ -28,9 +28,9 @@ public class ProjectController {
     }
 
     @PostMapping("/{owner}/{name}")
-    public Project getAndPostToGitMiner(@PathVariable String owner, @PathVariable String name,
+    public Project postToGitMiner(@PathVariable String owner, @PathVariable String name,
                               @RequestParam(defaultValue = "5") Integer nCommits, @RequestParam(defaultValue = "5") Integer nIssues) throws Exception {
-        Project project = projectService.getAndPostToGitMiner(owner, name);
+        Project project = projectService.postToGitMiner(owner, name);
         if (project != null) {
             return project;
         } else {

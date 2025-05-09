@@ -100,6 +100,7 @@ public class User {
         sb.append('=');
         sb.append(((this.webUrl == null)?"<null>":this.webUrl));
         sb.append(',');
+        sb.append('\n');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {

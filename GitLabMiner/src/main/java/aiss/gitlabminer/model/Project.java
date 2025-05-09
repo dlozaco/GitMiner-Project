@@ -96,10 +96,12 @@ public class Project {
         sb.append('=');
         sb.append(((this.webUrl == null)?"<null>":this.webUrl));
         sb.append(',');
+        sb.append('\n');
         sb.append("commits");
         sb.append('=');
         sb.append(((this.commits == null)?"<null>":this.commits));
         sb.append(',');
+        sb.append('\n');
         sb.append("issues");
         sb.append('=');
         sb.append(((this.issues == null)?"<null>":this.issues));
