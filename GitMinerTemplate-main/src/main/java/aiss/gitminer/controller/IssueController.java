@@ -41,9 +41,7 @@ public class IssueController {
                                         @RequestParam(required = false) String state) {
 
         if (author_id != null && state != null) {
-            List<Issue> res = issueRepository.findByAuthor_Id(author_id);
-            res.removeIf(issue -> !issue.getState().equals(state));
-            return res;
+            return issueRepository.findByAuthor_IdAndState(author_id, state);
         }
         if (author_id != null) {
             return issueRepository.findByAuthor_Id(author_id);
