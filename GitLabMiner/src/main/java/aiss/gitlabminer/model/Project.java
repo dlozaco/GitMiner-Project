@@ -1,82 +1,81 @@
+package aiss.gitlabminer.model;
 
-package aiss.gitminer.model;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
-@Table(name = "Project")
+/*For the request of a project by its owner and name, the path https://gitlab.com/api/v4/projects/ only takes one
+argument which is the full path owner/project, so, for the path to not process each one as a different argument, / must be
+replaced by %2F*/
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Project {
 
-    @Id
+//    id in GitMiner model
     @JsonProperty("id")
-    public String id;
+    private Integer id;
 
+//    name in GitMiner model
     @JsonProperty("name")
-    @NotEmpty(message = "The name of the project cannot be empty")
-    public String name;
+    private String name;
 
+//    web_url in GitMiner model
     @JsonProperty("web_url")
-    @NotEmpty(message = "The URL of the project cannot be empty")
-    public String webUrl;
+    private String webUrl;
+
     @JsonProperty("commits")
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "projectId")
     private List<Commit> commits;
 
     @JsonProperty("issues")
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "projectId")
     private List<Issue> issues;
 
-    public Project(String name, String webUrl) {
-        this.name = name;
-        this.webUrl = webUrl;
-        this.commits = new ArrayList<>();
-        this.issues = new ArrayList<>();
-    }
-
-    public String getId() {
+    @JsonProperty("id")
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    @JsonProperty("id")
+    public void setId(Integer id) {
         this.id = id;
     }
 
+    @JsonProperty("name")
     public String getName() {
         return name;
     }
 
+    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
 
+    @JsonProperty("web_url")
     public String getWebUrl() {
         return webUrl;
     }
 
+    @JsonProperty("web_url")
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
     }
 
+    @JsonProperty("commits")
     public List<Commit> getCommits() {
         return commits;
     }
 
+    @JsonProperty("commits")
     public void setCommits(List<Commit> commits) {
         this.commits = commits;
     }
 
+    @JsonProperty("issues")
     public List<Issue> getIssues() {
         return issues;
     }
 
+    @JsonProperty("issues")
     public void setIssues(List<Issue> issues) {
         this.issues = issues;
     }
@@ -84,10 +83,18 @@ public class Project {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Project.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Commit.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
+        sb.append(',');
+        sb.append("name");
+        sb.append('=');
+        sb.append(((this.name == null)?"<null>":this.name));
+        sb.append(',');
+        sb.append("webUrl");
+        sb.append('=');
+        sb.append(((this.webUrl == null)?"<null>":this.webUrl));
         sb.append(',');
         sb.append("commits");
         sb.append('=');
@@ -97,7 +104,6 @@ public class Project {
         sb.append('=');
         sb.append(((this.issues == null)?"<null>":this.issues));
         sb.append(',');
-
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
@@ -105,4 +111,5 @@ public class Project {
         }
         return sb.toString();
     }
+
 }

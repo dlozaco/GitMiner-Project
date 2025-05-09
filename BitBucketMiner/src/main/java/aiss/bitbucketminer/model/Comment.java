@@ -1,5 +1,5 @@
 
-package model;
+package aiss.bitbucketminer.model;
 
 import java.util.List;
 import javax.annotation.Generated;
