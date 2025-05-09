@@ -16,15 +16,15 @@ class ProjectServiceTest {
     @Test
     @DisplayName( "Test for getProject method")
     void getProject() {
-        Project project = projectService.getProject("luggzz", "gitlabminer-test");
+        Project project = projectService.getProject("luggzz", "gitlabminer-test", 2, 1);
 
         assertNotNull(project, "Project is null");
         assertNotNull(project.getId(), "Project id is null");
         assertEquals("GitLabMiner-test", project.getName(), "Project name is incorrect");
         assertNotNull(project.getWebUrl(), "Project web url is null");
 
-        assertEquals(4, project.getCommits().size(), "Project commits size is incorrect");
-        assertEquals(2, project.getIssues().size(), "Project issues size is incorrect");
+        assertEquals(2, project.getCommits().size(), "Project commits size is incorrect");
+        assertEquals(1, project.getIssues().size(), "Project issues size is incorrect");
 
         project.getCommits().forEach(commit -> {
             assertNotNull(commit.getId(), "Commit id is null");
@@ -56,7 +56,7 @@ class ProjectServiceTest {
     @Test
     @DisplayName("Test for postToGitMiner method")
     void postToGitMiner() {
-        Project project = projectService.postToGitMiner("luggzz", "gitlabminer-test");
+        Project project = projectService.postToGitMiner("luggzz", "gitlabminer-test", 5, 5);
 
         assertNotNull(project, "Project is null");
         assertNotNull(project.getId(), "Project id is null");

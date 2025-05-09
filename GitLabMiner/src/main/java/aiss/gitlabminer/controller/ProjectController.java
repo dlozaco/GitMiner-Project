@@ -21,7 +21,7 @@ public class ProjectController {
     @GetMapping("/{owner}/{name}")
     public Project getProject(@PathVariable String owner, @PathVariable String name,
                         @RequestParam(defaultValue = "5") Integer nCommits, @RequestParam(defaultValue = "5") Integer nIssues) throws ProjectNotFoundException {
-        Project project = projectService.getProject(owner, name);
+        Project project = projectService.getProject(owner, name, nCommits, nIssues);
         if (project != null) {
             return project;
         } else {
@@ -33,6 +33,6 @@ public class ProjectController {
     @PostMapping("/{owner}/{name}")
     public Project postToGitMiner(@PathVariable String owner, @PathVariable String name,
                         @RequestParam(defaultValue = "5") Integer nCommits, @RequestParam(defaultValue = "5") Integer nIssues) {
-        return projectService.postToGitMiner(owner, name);
+        return projectService.postToGitMiner(owner, name, nCommits, nIssues);
     }
 }
