@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -110,5 +111,16 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
         }
 
         return project;
+    }
+
+    public Project getAndPostToGitMiner(String owner, String name) {
+        Project createdProject = null;
+        Project project = getProject(owner, name);
+        try {
+            createdProject = restTemplate.postForObject("http://localhost:8080/gitminer/projects", project, Project.class);
+        } catch (RestClientException e) {
+            System.out.println("Error posting project to GitMiner: " + e.getMessage());
+        }
+        return createdProject;
     }
 }

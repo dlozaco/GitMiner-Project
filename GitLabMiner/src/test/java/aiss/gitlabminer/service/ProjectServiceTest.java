@@ -22,4 +22,9 @@ class ProjectServiceTest {
 //        System.out.println(project);
 //        projectService.getProject("gitlab-org", "gitlab");
     }
+
+    @Test
+    @DisplayName("Test for getAndPostToGitMiner method")
+    void getAndPostToGitMiner() {
+    }
 }

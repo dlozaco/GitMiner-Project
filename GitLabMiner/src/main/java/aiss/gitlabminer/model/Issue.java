@@ -64,6 +64,7 @@ public class Issue {
     @JsonProperty("downvotes")
     private Integer downvotes;
 
+    @JsonProperty("comments")
     private List<Comment> comments;
 
     @JsonProperty("id")
@@ -206,10 +207,15 @@ public class Issue {
         this.downvotes = downvotes;
     }
 
+    @JsonProperty("votes")
+    public Integer getVotes() { return upvotes + downvotes; }
+
+    @JsonProperty("comments")
     public List<Comment> getComments() {
         return comments;
     }
 
+    @JsonProperty("comments")
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }

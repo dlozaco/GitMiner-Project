@@ -14,16 +14,9 @@ public class User {
     @JsonProperty("username")
     private String username;
 
-    @JsonProperty("public_email")
-    private String publicEmail;
-
 //    name in GitMiner model
     @JsonProperty("name")
     private String name;
-    @JsonProperty("state")
-    private String state;
-    @JsonProperty("locked")
-    private Boolean locked;
 
 //    avatar_url in GitMiner model
     @JsonProperty("avatar_url")
@@ -53,16 +46,6 @@ public class User {
         this.username = username;
     }
 
-    @JsonProperty("public_email")
-    public String getPublicEmail() {
-        return publicEmail;
-    }
-
-    @JsonProperty("public_email")
-    public void setPublicEmail(String publicEmail) {
-        this.publicEmail = publicEmail;
-    }
-
     @JsonProperty("name")
     public String getName() {
         return name;
@@ -71,26 +54,6 @@ public class User {
     @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
-    }
-
-    @JsonProperty("state")
-    public String getState() {
-        return state;
-    }
-
-    @JsonProperty("state")
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    @JsonProperty("locked")
-    public Boolean getLocked() {
-        return locked;
-    }
-
-    @JsonProperty("locked")
-    public void setLocked(Boolean locked) {
-        this.locked = locked;
     }
 
     @JsonProperty("avatar_url")
@@ -125,21 +88,9 @@ public class User {
         sb.append('=');
         sb.append(((this.username == null)?"<null>":this.username));
         sb.append(',');
-        sb.append("publicEmail");
-        sb.append('=');
-        sb.append(((this.publicEmail == null)?"<null>":this.publicEmail));
-        sb.append(',');
         sb.append("name");
         sb.append('=');
         sb.append(((this.name == null)?"<null>":this.name));
-        sb.append(',');
-        sb.append("state");
-        sb.append('=');
-        sb.append(((this.state == null)?"<null>":this.state));
-        sb.append(',');
-        sb.append("locked");
-        sb.append('=');
-        sb.append(((this.locked == null)?"<null>":this.locked));
         sb.append(',');
         sb.append("avatarUrl");
         sb.append('=');
