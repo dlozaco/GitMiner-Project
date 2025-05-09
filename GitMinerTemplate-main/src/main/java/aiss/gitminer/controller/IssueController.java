@@ -1,10 +1,9 @@
-package aiss.gitminer.model.controller;
+package aiss.gitminer.controller;
 
 
 import aiss.gitminer.model.Comment;
 import aiss.gitminer.model.Issue;
-import aiss.gitminer.model.User;
-import aiss.gitminer.model.repository.IssueRepository;
+import aiss.gitminer.repository.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +21,11 @@ public class IssueController {
     public List<Issue> getAllIssues(@RequestParam(required = false) String author_id,
                                     @RequestParam(required = false) String state) {
 
+        if (author_id != null && state != null) {
+            List<Issue> res = issueRepository.findByAuthor_Id(author_id);
+            res.removeIf(issue -> !issue.getState().equals(state));
+            return res;
+        }
         if (author_id != null) {
             return issueRepository.findByAuthor_Id(author_id);
         }

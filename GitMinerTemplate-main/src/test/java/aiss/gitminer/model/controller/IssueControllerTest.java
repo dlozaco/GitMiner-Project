@@ -1,5 +1,6 @@
 package aiss.gitminer.model.controller;
 
+import aiss.gitminer.controller.IssueController;
 import aiss.gitminer.model.Comment;
 import aiss.gitminer.model.Issue;
 import org.junit.jupiter.api.DisplayName;
