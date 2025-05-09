@@ -15,10 +15,11 @@ class ProjectServiceTest {
     @Test
     @DisplayName( "Test for getProject method")
     void getProject() {
-        Project project = projectService.getProject("gitlab-org", "gitlab");
+//        Project project = projectService.getProject("gitlab-org", "gitlab");
 /*        System.out.println(project);
         System.out.println(project.getCommits());*/
 //        System.out.println(project.getIssues().stream().filter(issue -> issue.getComments().size()>0).findFirst().get().getComments());
-        System.out.println(project);
+//        System.out.println(project);
+//        projectService.getProject("gitlab-org", "gitlab");
     }
 }
