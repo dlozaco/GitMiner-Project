@@ -1,5 +1,5 @@
 
-package aiss.githubminer.model.Commit;
+package aiss.githubminer.model.commit;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

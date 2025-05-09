@@ -1,10 +1,6 @@
 
-package aiss.githubminer.model.Project;
+package aiss.githubminer.model;
 
-import java.util.List;
-
-import aiss.githubminer.model.Commit.Commit;
-import aiss.githubminer.model.Issue.Issue;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,10 +13,10 @@ public class Project {
     private String name;
     @JsonProperty("html_url")
     private String htmlUrl;
-    @JsonProperty("commits")
-    private List<Commit> commits;
-    @JsonProperty("issues")
-    private List<Issue> issues;
+    @JsonProperty("commits_url")
+    private String commitsUrl;
+    @JsonProperty("issues_url")
+    private String issuesUrl;
 
     @JsonProperty("id")
     public Integer getId() {

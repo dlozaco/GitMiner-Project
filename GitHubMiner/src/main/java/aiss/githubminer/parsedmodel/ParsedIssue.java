@@ -1,13 +1,15 @@
 
-package aiss.githubminer.model.Issue;
+package aiss.githubminer.parsedmodel;
 
 import java.util.List;
 
+import aiss.githubminer.model.issue.Comment;
+import aiss.githubminer.model.issue.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Issue {
+public class ParsedIssue {
 
     @JsonProperty("id")
     private Long id;
@@ -24,9 +26,33 @@ public class Issue {
     @JsonProperty("closed_at")
     private Object closedAt;
     @JsonProperty("labels")
-    private List<Label> labels;
+    private List<String> labels;
     @JsonProperty("user")
     private User user;
+    @JsonProperty("votes")
+    private Integer votes;
+    @JsonProperty("asignee")
+    private User asignee;
+    @JsonProperty("comments")
+    private List<Comment> comments;
+
+    public ParsedIssue(Long id, String title, String body, String state, String createdAt,
+                       String updatedAt, Object closedAt, List<String> labels, User user,
+                       Integer votes, User asignee, List<Comment> comments) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.state = state;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.closedAt = closedAt;
+        this.labels = labels;
+        this.votes = votes;
+        this.user = user;
+        this.asignee = asignee;
+        this.comments = comments;
+    }
+
 
     @JsonProperty("id")
     public Long getId() {
@@ -61,8 +87,23 @@ public class Issue {
     public void setState(String state) { this.state = state; }
 
     @JsonProperty("labels")
-    public void setLabels(List<Label> labels) {
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    @JsonProperty("labels")
+    public void setLabels(List<String> labels) {
         this.labels = labels;
+    }
+
+    @JsonProperty("votes")
+    public Integer getVotes() {
+        return votes;
+    }
+
+    @JsonProperty("votes")
+    public Integer setVotes(Integer votes) {
+        return votes;
     }
 
     @JsonProperty("created_at")
@@ -95,11 +136,6 @@ public class Issue {
         this.closedAt = closedAt;
     }
 
-    @JsonProperty("labels")
-    public List<Label> getLabels() {
-        return labels;
-    }
-
     @JsonProperty("user")
     public User getUser() {
         return user;
@@ -110,11 +146,26 @@ public class Issue {
         this.user = user;
     }
 
+    @JsonProperty("comments")
+    public List<Comment> getComments(){ return comments; }
+
+    @JsonProperty("comments")
+    public void setComments(List<Comment> comments){ this.comments = comments; }
+
+    @JsonProperty("asignee")
+    public User getAsignee() {
+        return asignee;
+    }
+
+    @JsonProperty("asignee")
+    public void setAsignee(User asignee) {
+        this.asignee = asignee;
+    }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Issue.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(ParsedIssue.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("title");
         sb.append('=');
         sb.append(((this.title == null)?"<null>":this.title));
@@ -146,6 +197,14 @@ public class Issue {
         sb.append("body");
         sb.append('=');
         sb.append(((this.body == null)?"<null>":this.body));
+        sb.append(',');
+        sb.append("votes");
+        sb.append('=');
+        sb.append(((this.votes == null)?"<null>":this.votes));
+        sb.append(',');
+        sb.append("comments");
+        sb.append('=');
+        sb.append(((this.comments == null)?"<null>":this.comments));
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
