@@ -47,7 +47,7 @@ public class ProjectService {
         List<ParsedIssue> issues = issueService.getAllIssues(owner, repo);
 
         ParsedProject parsedProject = new ParsedProject(
-                project.getId(),
+                String.valueOf(project.getId()),
                 project.getName(),
                 project.getHtmlUrl(),
                 commits,
@@ -55,5 +55,16 @@ public class ProjectService {
         );
 
         return parsedProject;
+    }
+
+    public ParsedProject postProjectToGitminer(String owner, String repo){
+        ParsedProject newProject = null;
+        ParsedProject project = getProject(owner, repo);
+        try {
+            newProject=restTemplate.postForObject("https//localhost:8080/gitminer", project, ParsedProject.class);
+        } catch (Exception e) {
+            System.out.println("Error when posting to Gitminer");
+        }
+        return newProject;
     }
 }

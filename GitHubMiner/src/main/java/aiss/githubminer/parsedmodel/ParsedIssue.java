@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ParsedIssue {
 
     @JsonProperty("id")
-    private Long id;
+    private String id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("body")
@@ -36,7 +36,7 @@ public class ParsedIssue {
     @JsonProperty("comments")
     private List<Comment> comments;
 
-    public ParsedIssue(Long id, String title, String body, String state, String createdAt,
+    public ParsedIssue(String id, String title, String body, String state, String createdAt,
                        String updatedAt, Object closedAt, List<String> labels, User user,
                        Integer votes, User asignee, List<Comment> comments) {
         this.id = id;
@@ -55,12 +55,12 @@ public class ParsedIssue {
 
 
     @JsonProperty("id")
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
