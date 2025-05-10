@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD:BitBucketMiner/src/main/java/aiss/bitbucketminer/model/issue/Reporter.java
 package aiss.bitbucketminer.model.issue;
+=======
+package aiss.bitbucketminer.model;
+>>>>>>> 68b478e9e008a9d5df712026293de9022a2879a7:BitBucketMiner/src/main/java/aiss/bitbucketminer/model/Owner.java
 
 import javax.annotation.Generated;
 

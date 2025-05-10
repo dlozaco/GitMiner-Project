@@ -35,8 +35,8 @@ public class Project {
     private List<Issue> issues;
 
     public Project() {
-        commits = new ArrayList<>();
-        issues = new ArrayList<>();
+        this.commits = new ArrayList<>();
+        this.issues = new ArrayList<>();
     }
 
     public String getId() {
