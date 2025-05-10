@@ -2,8 +2,11 @@ package aiss.bitbucketminer.service;
 
 import aiss.bitbucketminer.model.comment.Comment;
 import aiss.bitbucketminer.model.issue.Issue;
+import aiss.bitbucketminer.model.issue.IssuePage;
 import aiss.bitbucketminer.model.issue.User;
+import aiss.bitbucketminer.model.parsedModels.ParsedComment;
 import aiss.bitbucketminer.model.parsedModels.ParsedIssue;
+import aiss.bitbucketminer.model.parsedModels.ParsedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -27,11 +30,11 @@ public class IssueService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<Issue[]> request = new HttpEntity<>(null, headers);
+        HttpEntity<String> request = new HttpEntity<>(null, headers);
 
-        ResponseEntity<Issue[]> response = restTemplate.exchange(uri, HttpMethod.GET, request, Issue[].class);
+        ResponseEntity<IssuePage> response = restTemplate.exchange(uri, HttpMethod.GET, request, IssuePage.class);
 
-        List<Issue> issues = Arrays.asList(response.getBody());
+        List<Issue> issues = response.getBody().getIssues();
         return parseIssues(issues);
     }
 
@@ -47,15 +50,29 @@ public class IssueService {
                     String closedAt = null;
                     List<String> labels = new ArrayList<>();
                     Integer votes = issue.getVotes(); //???
-                    User author = issue.getAuthor();
-                    User assignee = issue.getAssignee();
-                    List<Comment> comments= commentService.getComments(issue.getLinks().getComments().getHref());
+                    ParsedUser author = parseUser(issue.getAuthor());
+                    ParsedUser assignee = parseUser(issue.getAssignee());
+                    List<ParsedComment> comments= commentService.getComments(issue.getLinks().getComments().getHref());
 
                     ParsedIssue parsedIssue = new ParsedIssue(id, title, description, state, createdAt, updatedAt,
                             closedAt, labels, votes, author, assignee, comments);
                     parsedIssues.add(parsedIssue);
         }
         return parsedIssues;
+    }
+
+    public ParsedUser parseUser(User user) {
+        if (user == null) {
+            return new ParsedUser("No ID", "No Username", "No Name", "No Avatar", "No URL");
+        }
+
+        return new ParsedUser(
+                user.getUuid(),
+                user.getDisplayName(),
+                user.getNickname(),
+                user.getLinks().getAvatar().getHref(),
+                user.getLinks().getHtml().getHref()
+        );
     }
 
 

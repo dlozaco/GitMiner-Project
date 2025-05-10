@@ -30,11 +30,11 @@ public class ParsedIssue {
     private Integer votes;
 
     @JsonProperty("author")
-    private User author;
+    private ParsedUser author;
     @JsonProperty("assignee")
-    private User assignee;
+    private ParsedUser assignee;
     @JsonProperty("comments")
-    private List<Comment> comments;
+    private List<ParsedComment> comments;
 
     public String getId() {
         return id;
@@ -108,31 +108,31 @@ public class ParsedIssue {
         this.votes = votes;
     }
 
-    public User getAuthor() {
+    public ParsedUser getAuthor() {
         return author;
     }
 
-    public void setAuthor(User user) {
+    public void setAuthor(ParsedUser user) {
         this.author = user;
     }
 
-    public User getAssignee() {
+    public ParsedUser getAssignee() {
         return assignee;
     }
 
-    public void setAssignee(User assignee) {
+    public void setAssignee(ParsedUser assignee) {
         this.assignee = assignee;
     }
 
-    public List<Comment> getComments() {
+    public List<ParsedComment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<ParsedComment> comments) {
         this.comments = comments;
     }
 
-    public ParsedIssue(String id, String title, String description, String state, String createdAt, String updatedAt, Object closedAt, List<String> labels, Integer votes, User user, User assignee, List<Comment> comments) {
+    public ParsedIssue(String id, String title, String description, String state, String createdAt, String updatedAt, Object closedAt, List<String> labels, Integer votes, ParsedUser author, ParsedUser assignee, List<ParsedComment> comments) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -142,7 +142,7 @@ public class ParsedIssue {
         this.closedAt = closedAt;
         this.labels = labels;
         this.votes = votes;
-        this.user = user;
+        this.author = author;
         this.assignee = assignee;
         this.comments = comments;
     }
@@ -159,7 +159,7 @@ public class ParsedIssue {
                 ", closedAt=" + closedAt +
                 ", labels=" + labels +
                 ", votes=" + votes +
-                ", user=" + user +
+                ", author=" + author +
                 ", assignee=" + assignee +
                 ", comments=" + comments +
                 '}';

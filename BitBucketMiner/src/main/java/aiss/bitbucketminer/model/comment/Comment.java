@@ -10,7 +10,7 @@ public class Comment {
     @JsonProperty("type")
     private String type;
     @JsonProperty("id")
-    private String id; // inicialmente era un integer
+    private Integer id;
     @JsonProperty("created_on")
     private String createdOn;
     @JsonProperty("updated_on")
