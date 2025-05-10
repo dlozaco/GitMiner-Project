@@ -1,11 +1,6 @@
 
-<<<<<<< HEAD:BitBucketMiner/src/main/java/aiss/bitbucketminer/model/issue/Avatar.java
 package aiss.bitbucketminer.model.issue;
-=======
-package aiss.bitbucketminer.model;
->>>>>>> 68b478e9e008a9d5df712026293de9022a2879a7:BitBucketMiner/src/main/java/aiss/bitbucketminer/model/Issues.java
 
-import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

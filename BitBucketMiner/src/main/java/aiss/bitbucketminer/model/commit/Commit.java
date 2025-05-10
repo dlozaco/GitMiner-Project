@@ -2,7 +2,6 @@
 package aiss.bitbucketminer.model.commit;
 
 import java.util.List;
-import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
