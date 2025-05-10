@@ -2,9 +2,7 @@
 package aiss.bitbucketminer.model.issue;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Issue {
@@ -12,7 +10,7 @@ public class Issue {
     @JsonProperty("type")
     private String type;
     @JsonProperty("id")
-    private Integer id;
+    private Integer id; //cambio de int a string
     @JsonProperty("repository")
     private Repository repository;
     @JsonProperty("links")
@@ -21,10 +19,10 @@ public class Issue {
     private String title;
     @JsonProperty("content")
     private Content content;
-    @JsonProperty("reporter")
-    private Reporter reporter;
+    @JsonProperty("author")
+    private User author;
     @JsonProperty("assignee")
-    private Object assignee;
+    private User assignee;
     @JsonProperty("created_on")
     private String createdOn;
     @JsonProperty("edited_on")
@@ -109,22 +107,22 @@ public class Issue {
     }
 
     @JsonProperty("reporter")
-    public Reporter getReporter() {
-        return reporter;
+    public User getAuthor() {
+        return author;
     }
 
     @JsonProperty("reporter")
-    public void setReporter(Reporter reporter) {
-        this.reporter = reporter;
+    public void setAuthor(User reporter) {
+        this.author = reporter;
     }
 
     @JsonProperty("assignee")
-    public Object getAssignee() {
+    public User getAssignee() {
         return assignee;
     }
 
     @JsonProperty("assignee")
-    public void setAssignee(Object assignee) {
+    public void setAssignee(User assignee) {
         this.assignee = assignee;
     }
 
@@ -268,7 +266,7 @@ public class Issue {
         sb.append(',');
         sb.append("reporter");
         sb.append('=');
-        sb.append(((this.reporter == null)?"<null>":this.reporter));
+        sb.append(((this.author == null)?"<null>":this.author));
         sb.append(',');
         sb.append("assignee");
         sb.append('=');
