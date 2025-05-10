@@ -28,16 +28,8 @@ Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
     cd GitMiner-Project
     ```
 
-3. Compila el proyecto con Maven:
-    ```bash
-    mvn clean install
-    ```
-
-4. Ejecuta la aplicación:
-    ```bash
-    java -jar target/GitMiner-Project.jar
-    ```
-
+3. Ejecuta la aplicación directamente desde la clase principal GitMinerApplication utilizando tu IDE de preferencia o un entorno Java.
+   
 ## Contribuciones
 
 ¡Las contribuciones son bienvenidas! Si deseas contribuir:
