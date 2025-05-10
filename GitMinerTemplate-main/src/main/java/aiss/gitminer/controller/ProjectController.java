@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,9 +43,9 @@ public class ProjectController {
         Pageable paging;
 
         if(order!=null && order.equals("desc")){
-            paging = PageRequest.of(page, size, org.springframework.data.domain.Sort.by("id").descending());
+            paging = PageRequest.of(page, size, Sort.by("id").descending());
         } else {
-            paging = PageRequest.of(page, size, org.springframework.data.domain.Sort.by("id").ascending());
+            paging = PageRequest.of(page, size, Sort.by("id").ascending());
         }
 
         if(name!=null){
@@ -57,8 +58,8 @@ public class ProjectController {
 
     //GET BY ID
     @Operation(
-            summary = "Retrieve all projects",
-            tags = { "projects", "get by id" }
+            summary = "Retrieve project by id",
+            tags = { "project", "get by id" }
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Project found", content = { @Content(schema = @Schema(implementation = Project.class),
@@ -66,7 +67,7 @@ public class ProjectController {
             @ApiResponse(responseCode = "404", description = "Project not found", content = @Content(schema = @Schema()))
     })
     @GetMapping("/{id}")
-    public Project findById(@Parameter(description = "id of the project to search") @PathVariable(value = "id") String id){
+    public Project findOne(@Parameter(description = "id of the project to search") @PathVariable(value = "id") String id){
         return projectRepository.findById(id).get();
     }
 
@@ -124,6 +125,8 @@ public class ProjectController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProject(@Parameter(description = "id of the project to be deleted" ) @PathVariable(value = "id") String id) {
-        projectRepository.deleteById(id);
+        if(projectRepository.existsById(id)){
+            projectRepository.deleteById(id);
+        }
     }
 }
