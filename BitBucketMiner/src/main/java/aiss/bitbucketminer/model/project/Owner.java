@@ -1,35 +1,26 @@
 
-package model;
+package aiss.bitbucketminer.model.project;
 
 import javax.annotation.Generated;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "display_name",
-    "links",
-    "type",
-    "uuid",
-    "account_id",
-    "nickname"
-})
-@Generated("jsonschema2pojo")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Owner {
 
     @JsonProperty("display_name")
     private String displayName;
     @JsonProperty("links")
-    private Links__1 links;
+    private Links links;
     @JsonProperty("type")
     private String type;
     @JsonProperty("uuid")
     private String uuid;
-    @JsonProperty("account_id")
-    private String accountId;
-    @JsonProperty("nickname")
-    private String nickname;
+    @JsonProperty("username")
+    private String username;
 
     @JsonProperty("display_name")
     public String getDisplayName() {
@@ -42,12 +33,12 @@ public class Owner {
     }
 
     @JsonProperty("links")
-    public Links__1 getLinks() {
+    public Links getLinks() {
         return links;
     }
 
     @JsonProperty("links")
-    public void setLinks(Links__1 links) {
+    public void setLinks(Links links) {
         this.links = links;
     }
 
@@ -71,24 +62,14 @@ public class Owner {
         this.uuid = uuid;
     }
 
-    @JsonProperty("account_id")
-    public String getAccountId() {
-        return accountId;
+    @JsonProperty("username")
+    public String getUsername() {
+        return username;
     }
 
-    @JsonProperty("account_id")
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
-
-    @JsonProperty("nickname")
-    public String getNickname() {
-        return nickname;
-    }
-
-    @JsonProperty("nickname")
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    @JsonProperty("username")
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -111,13 +92,9 @@ public class Owner {
         sb.append('=');
         sb.append(((this.uuid == null)?"<null>":this.uuid));
         sb.append(',');
-        sb.append("accountId");
+        sb.append("username");
         sb.append('=');
-        sb.append(((this.accountId == null)?"<null>":this.accountId));
-        sb.append(',');
-        sb.append("nickname");
-        sb.append('=');
-        sb.append(((this.nickname == null)?"<null>":this.nickname));
+        sb.append(((this.username == null)?"<null>":this.username));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

@@ -1,17 +1,15 @@
 
-package model;
+package aiss.bitbucketminer.model.issue;
 
 import javax.annotation.Generated;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "href"
-})
-@Generated("jsonschema2pojo")
-public class Commits {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Html__2 {
 
     @JsonProperty("href")
     private String href;
@@ -29,7 +27,7 @@ public class Commits {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Commits.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Html__2 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("href");
         sb.append('=');
         sb.append(((this.href == null)?"<null>":this.href));
