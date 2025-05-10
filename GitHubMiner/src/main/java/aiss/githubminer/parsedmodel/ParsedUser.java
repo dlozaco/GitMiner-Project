@@ -1,32 +1,31 @@
-package aiss.gitlabminer.model;
+
+package aiss.githubminer.parsedmodel;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotEmpty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User {
+public class ParsedUser {
 
-//    id in GitMiner model
+
     @JsonProperty("id")
     private String id;
-
-//    username in GitMiner model
     @JsonProperty("username")
-    @NotEmpty(message = "The field username cannot be empty.")
     private String username;
-
-//    name in GitMiner model
     @JsonProperty("name")
     private String name;
-
-//    avatar_url in GitMiner model
     @JsonProperty("avatar_url")
     private String avatarUrl;
+    @JsonProperty("html_url")
+    private String htmlUrl;
 
-//    web_url in GitMiner model
-    @JsonProperty("web_url")
-    private String webUrl;
+    public ParsedUser(String id, String username, String name, String avatarUrl, String htmlUrl) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.avatarUrl = avatarUrl;
+        this.htmlUrl = htmlUrl;
+    }
 
     @JsonProperty("id")
     public String getId() {
@@ -39,13 +38,13 @@ public class User {
     }
 
     @JsonProperty("username")
-    public String getUsername() {
+    public String getLogin() {
         return username;
     }
 
     @JsonProperty("username")
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLogin(String login) {
+        this.username = login;
     }
 
     @JsonProperty("name")
@@ -68,27 +67,27 @@ public class User {
         this.avatarUrl = avatarUrl;
     }
 
-    @JsonProperty("web_url")
-    public String getWebUrl() {
-        return webUrl;
+    @JsonProperty("html_url")
+    public String getHtmlUrl() {
+        return htmlUrl;
     }
 
-    @JsonProperty("web_url")
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
+    @JsonProperty("html_url")
+    public void setHtmlUrl(String htmlUrl) {
+        this.htmlUrl = htmlUrl;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(User.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
+        sb.append(ParsedUser.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("username");
         sb.append('=');
         sb.append(((this.username == null)?"<null>":this.username));
+        sb.append(',');
+        sb.append("id");
+        sb.append('=');
+        sb.append(((this.id == null)?"<null>":this.id));
         sb.append(',');
         sb.append("name");
         sb.append('=');
@@ -98,11 +97,10 @@ public class User {
         sb.append('=');
         sb.append(((this.avatarUrl == null)?"<null>":this.avatarUrl));
         sb.append(',');
-        sb.append("webUrl");
+        sb.append("htmlUrl");
         sb.append('=');
-        sb.append(((this.webUrl == null)?"<null>":this.webUrl));
+        sb.append(((this.htmlUrl == null)?"<null>":this.htmlUrl));
         sb.append(',');
-        sb.append('\n');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {

@@ -12,7 +12,7 @@ public class Issue {
 //    id in GitMiner model
     @JsonProperty("id")
     @NotEmpty(message = "The field id cannot be empty.")
-    private Integer id;
+    private String id;
 
 //    needed to get the comments  -> GET /projects/:id/issues/:issue_iid/notes
     @JsonProperty("iid")
@@ -67,12 +67,12 @@ public class Issue {
     private List<Comment> comments;
 
     @JsonProperty("id")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

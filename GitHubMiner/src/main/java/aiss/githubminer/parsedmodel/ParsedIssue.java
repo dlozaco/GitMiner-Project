@@ -27,18 +27,18 @@ public class ParsedIssue {
     private Object closedAt;
     @JsonProperty("labels")
     private List<String> labels;
-    @JsonProperty("user")
-    private User user;
+    @JsonProperty("author")
+    private ParsedUser author;
+    @JsonProperty("asignee")
+    private ParsedUser asignee;
     @JsonProperty("votes")
     private Integer votes;
-    @JsonProperty("asignee")
-    private User asignee;
     @JsonProperty("comments")
-    private List<Comment> comments;
+    private List<ParsedComment> comments;
 
     public ParsedIssue(String id, String title, String body, String state, String createdAt,
-                       String updatedAt, Object closedAt, List<String> labels, User user,
-                       Integer votes, User asignee, List<Comment> comments) {
+                       String updatedAt, Object closedAt, List<String> labels, ParsedUser author,
+                       Integer votes, ParsedUser asignee, List<ParsedComment> comments) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -48,7 +48,7 @@ public class ParsedIssue {
         this.closedAt = closedAt;
         this.labels = labels;
         this.votes = votes;
-        this.user = user;
+        this.author = author;
         this.asignee = asignee;
         this.comments = comments;
     }
@@ -102,8 +102,8 @@ public class ParsedIssue {
     }
 
     @JsonProperty("votes")
-    public Integer setVotes(Integer votes) {
-        return votes;
+    public void setVotes(Integer votes) {
+        this.votes = votes;
     }
 
     @JsonProperty("created_at")
@@ -136,29 +136,29 @@ public class ParsedIssue {
         this.closedAt = closedAt;
     }
 
-    @JsonProperty("user")
-    public User getUser() {
-        return user;
+    @JsonProperty("author")
+    public ParsedUser getAuthor() {
+        return author;
     }
 
-    @JsonProperty("user")
-    public void setUser(User user) {
-        this.user = user;
+    @JsonProperty("author")
+    public void setAuthor(ParsedUser author) {
+        this.author = author;
     }
 
     @JsonProperty("comments")
-    public List<Comment> getComments(){ return comments; }
+    public List<ParsedComment> getComments(){ return comments; }
 
     @JsonProperty("comments")
-    public void setComments(List<Comment> comments){ this.comments = comments; }
+    public void setComments(List<ParsedComment> comments){ this.comments = comments; }
 
     @JsonProperty("asignee")
-    public User getAsignee() {
+    public ParsedUser getAsignee() {
         return asignee;
     }
 
     @JsonProperty("asignee")
-    public void setAsignee(User asignee) {
+    public void setAsignee(ParsedUser asignee) {
         this.asignee = asignee;
     }
 
@@ -172,7 +172,7 @@ public class ParsedIssue {
         sb.append(',');
         sb.append("user");
         sb.append('=');
-        sb.append(((this.user == null)?"<null>":this.user));
+        sb.append(((this.author == null)?"<null>":this.author));
         sb.append(',');
         sb.append("labels");
         sb.append('=');

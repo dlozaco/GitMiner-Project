@@ -1,8 +1,6 @@
 
 package aiss.githubminer.parsedmodel;
 
-import aiss.githubminer.model.commit.Commit;
-import aiss.githubminer.model.issue.Issue;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,17 +13,17 @@ public class ParsedProject {
     private String id;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("html_url")
-    private String htmlUrl;
+    @JsonProperty("web_url")
+    private String web_url;
     @JsonProperty("commits")
     private List<ParsedCommit> commits;
     @JsonProperty("issues")
     private List<ParsedIssue> issues;
 
-    public ParsedProject(String id, String name, String htmlUrl, List<ParsedCommit> commits, List<ParsedIssue> issues){
+    public ParsedProject(String id, String name, String web_url, List<ParsedCommit> commits, List<ParsedIssue> issues){
         this.id = id;
         this.name = name;
-        this.htmlUrl = htmlUrl;
+        this.web_url = web_url;
         this.commits = commits;
         this.issues = issues;
     }
@@ -50,15 +48,36 @@ public class ParsedProject {
         this.name = name;
     }
 
-    @JsonProperty("html_url")
-    public String getHtmlUrl() {
-        return htmlUrl;
+    @JsonProperty("web_url")
+    public String getWebUrl() {
+        return web_url;
     }
 
-    @JsonProperty("html_url")
-    public void setHtmlUrl(String htmlUrl) {
-        this.htmlUrl = htmlUrl;
+    @JsonProperty("web_url")
+    public void setWebUrl(String webUrl) {
+        this.web_url = web_url;
     }
+
+    @JsonProperty("commits")
+    public List<ParsedCommit> getCommits() {
+        return commits;
+    }
+
+    @JsonProperty("commits")
+    public void setCommits(List<ParsedCommit> commits) {
+        this.commits = commits;
+    }
+
+    @JsonProperty("issues")
+    public List<ParsedIssue> getIssues() {
+        return issues;
+    }
+
+    @JsonProperty("issues")
+    public void setIssues(List<ParsedIssue> issues) {
+        this.issues = issues;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -67,9 +86,9 @@ public class ParsedProject {
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
         sb.append(',');
-        sb.append("htmlUrl");
+        sb.append("webUrl");
         sb.append('=');
-        sb.append(((this.htmlUrl == null)?"<null>":this.htmlUrl));
+        sb.append(((this.web_url == null)?"<null>":this.web_url));
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
