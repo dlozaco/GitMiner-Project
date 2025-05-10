@@ -76,11 +76,6 @@ public class Issue {
     @JsonProperty("state")
     public void setState(String state) { this.state = state; }
 
-    @JsonProperty("labels")
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
-    }
-
     @JsonProperty("created_at")
     public String getCreatedAt() {
         return createdAt;
@@ -114,6 +109,11 @@ public class Issue {
     @JsonProperty("labels")
     public List<Label> getLabels() {
         return labels;
+    }
+
+    @JsonProperty("labels")
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
     }
 
     @JsonProperty("user")

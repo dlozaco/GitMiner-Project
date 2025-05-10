@@ -39,11 +39,11 @@ public class IssueService {
         HttpEntity<Issue[]> request = new HttpEntity<>(null, headers);
         ResponseEntity<Issue[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Issue[].class);
         Issue[] issues = response.getBody();
-        List<ParsedIssue> allIssues = parseIssues(issues, owner, repo);
+        List<ParsedIssue> allIssues = parseIssues(issues);
         return allIssues;
     }
 
-    private List<ParsedIssue> parseIssues(Issue[] issues, String owner, String repo) {
+    private List<ParsedIssue> parseIssues(Issue[] issues) {
         List<ParsedIssue> res = new ArrayList<>();
         for(Issue issue:issues){
             List<String> labels = new ArrayList<>();

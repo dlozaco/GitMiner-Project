@@ -60,7 +60,7 @@ public class ProjectService {
         ParsedProject newProject = null;
         ParsedProject project = getProject(owner, repo);
         try {
-            newProject=restTemplate.postForObject("http://localhost:8080/gitminer/projects", project, ParsedProject.class);
+            newProject = restTemplate.postForObject("http://localhost:8080/gitminer/projects", project, ParsedProject.class);
         } catch (Exception e) {
             System.err.println(e);
         }

@@ -34,10 +34,10 @@ public class CommitController {
             tags = { "commits", "get all" }
     )
     @GetMapping
-    public List<Commit> findAllCommits(@RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "10") int size,
-                                       @RequestParam(required = false) String author_name,
-                                       @RequestParam(required = false) String order){
+    public List<Commit> findAllCommits(@Parameter(description = "number of pages to show") @RequestParam(defaultValue = "0") int page,
+                                       @Parameter(description = "size of pages") @RequestParam(defaultValue = "10") int size,
+                                       @Parameter(description = "property to filter") @RequestParam(required = false) String author_name,
+                                       @Parameter(description = "order") @RequestParam(required = false) String order){
         Page<Commit> pageCommits;
         Pageable paging;
 

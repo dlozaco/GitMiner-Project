@@ -35,11 +35,16 @@ public class ProjectController {
             summary = "Retrieve all projects",
             tags = { "projects", "get all" }
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Projects found", content = { @Content(schema = @Schema(implementation = Project.class),
+                    mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Projects not found", content = @Content(schema = @Schema()))
+    })
     @GetMapping
-    public List<Project> findAllProjects(@RequestParam(defaultValue = "0") int page,
-                                         @RequestParam(defaultValue = "10") int size,
-                                         @RequestParam(required = false) String name,
-                                         @RequestParam(required = false) String order){
+    public List<Project> findAllProjects(@Parameter(description = "number of pages to show") @RequestParam(defaultValue = "0") int page,
+                                         @Parameter(description = "size of pages") @RequestParam(defaultValue = "10") int size,
+                                         @Parameter(description = "property to filter") @RequestParam(required = false) String name,
+                                         @Parameter(description = "order") @RequestParam(required = false) String order){
         Page<Project> pageProjects;
         Pageable paging;
 
