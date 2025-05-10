@@ -7,39 +7,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ParsedCommit {
 
-    @JsonProperty("sha")
-    private String sha;
+    @JsonProperty("id")
+    private String id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("message")
     private String message;
-    @JsonProperty("authored_name")
-    private String authored_name;
-    @JsonProperty("authored_email")
-    private String authored_email;
+    @JsonProperty("author_name")
+    private String authorName;
+    @JsonProperty("author_email")
+    private String authorEmail;
     @JsonProperty("authored_date")
-    private String authored_date;
-    @JsonProperty("url")
-    private String url;
+    private String authoredDate;
+    @JsonProperty("web_url")
+    private String web_url;
 
-    public ParsedCommit(String sha, String title, String message, String authored_name, String authored_email, String authored_date, String url) {
-        this.sha = sha;
+    public ParsedCommit(String id, String title, String message, String authorName, String authorEmail, String authoredDate, String web_url) {
+        this.id = id;
         this.title = title;
         this.message = message;
-        this.authored_name = authored_name;
-        this.authored_email = authored_email;
-        this.authored_date = authored_date;
-        this.url = url;
+        this.authorName = authorName;
+        this.authorEmail = authorEmail;
+        this.authoredDate = authoredDate;
+        this.web_url = web_url;
     }
 
-    @JsonProperty("sha")
-    public String getSha() {
-        return sha;
+    @JsonProperty("id")
+    public String getId() {
+        return id;
     }
 
-    @JsonProperty("sha")
-    public void setSha(String sha) {
-        this.sha = sha;
+    @JsonProperty("id")
+    public void setId(String id) {
+        this.id = id;
     }
 
     @JsonProperty("title")
@@ -62,56 +62,56 @@ public class ParsedCommit {
         this.message = message;
     }
 
-    @JsonProperty("url")
-    public String getUrl() {
-        return url;
+    @JsonProperty("web_url")
+    public String getWebUrl() {
+        return web_url;
     }
 
-    @JsonProperty("url")
-    public void setUrl(String url) {
-        this.url = url;
+    @JsonProperty("web_url")
+    public void setWebUrl(String webUrl) {
+        this.web_url = web_url;
     }
 
-    @JsonProperty("authored_name")
-    public String getAuthored_name() {
-        return authored_name;
+    @JsonProperty("author_name")
+    public String getAuthorName() {
+        return authorName;
     }
 
-    @JsonProperty("authored_name")
-    public void setAuthored_name(String authored_name) {
-        this.authored_name = authored_name;
+    @JsonProperty("author_name")
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
-    @JsonProperty("authored_email")
-    public String getAuthored_email() {
-        return authored_email;
+    @JsonProperty("author_email")
+    public String getAuthorEmail() {
+        return authorEmail;
     }
 
-    @JsonProperty("authored_email")
-    public void setAuthored_email(String authored_email) {
-        this.authored_email = authored_email;
-    }
-
-    @JsonProperty("authored_date")
-    public String getAuthored_date() {
-        return authored_date;
+    @JsonProperty("author_email")
+    public void setAuthorEmail(String authorEmail) {
+        this.authorEmail = authorEmail;
     }
 
     @JsonProperty("authored_date")
-    public void setAuthored_date(String authored_date) {
-        this.authored_date = authored_date;
+    public String getAuthoredDate() {
+        return authoredDate;
+    }
+
+    @JsonProperty("authored_date")
+    public void setAuthoredDate(String authoredDate) {
+        this.authoredDate = authoredDate;
     }
 
     @Override
     public String toString() {
         return "ParsedCommit{" +
-                "sha='" + sha + '\'' +
+                "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", message='" + message + '\'' +
-                ", url='" + url + '\'' +
-                ", authored_name='" + authored_name + '\'' +
-                ", authored_email='" + authored_email + '\'' +
-                ", authored_date='" + authored_date + '\'' +
+                ", url='" + web_url + '\'' +
+                ", authored_name='" + authorName + '\'' +
+                ", authored_email='" + authorEmail + '\'' +
+                ", authored_date='" + authoredDate + '\'' +
                 '}';
     }
 }

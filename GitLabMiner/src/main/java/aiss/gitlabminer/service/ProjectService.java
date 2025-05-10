@@ -54,7 +54,7 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
 
         return project;
     }
-
+    
     public Project postToGitMiner(String owner, String name, Integer nCommits, Integer nIssues) {
         Project createdProject = null;
         Project project = getProject(owner, name, nCommits, nIssues);
