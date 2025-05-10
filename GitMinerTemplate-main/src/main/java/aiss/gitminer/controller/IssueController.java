@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name="Issue", description = "Issue management API")
+@Tag(name="Issue Controller", description = "Issue management API")
 @RestController
 @RequestMapping("/gitminer/issues")
 public class IssueController {
