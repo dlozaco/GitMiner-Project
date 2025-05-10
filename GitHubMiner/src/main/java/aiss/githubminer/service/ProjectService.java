@@ -56,7 +56,7 @@ public class ProjectService {
         return parsedProject;
     }
 
-    public ParsedProject postToGitminer(String owner, String repo){
+    public ParsedProject postProjectToGitminer(String owner, String repo){
         ParsedProject newProject = null;
         ParsedProject project = getProject(owner, repo);
         try {
