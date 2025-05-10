@@ -18,14 +18,20 @@ public class ProjectController {
 
     @GetMapping("/{owner}/{repo}")
     public ParsedProject getProject(@PathVariable(value = "owner") String owner,
-                                    @PathVariable(value = "repo") String repo){
-        return projectService.getProject(owner, repo);
+                                    @PathVariable(value = "repo") String repo,
+                                    @RequestParam(required = false, defaultValue = "2") Integer sinceCommits,
+                                    @RequestParam(required = false, defaultValue = "20") Integer sinceIssues,
+                                    @RequestParam(required = false, defaultValue = "2") Integer maxPages){
+        return projectService.getProject(owner, repo, sinceCommits, sinceIssues, maxPages);
     }
 
     @PostMapping("/{owner}/{repo}")
     public ParsedProject postToGitminer(@PathVariable (value="owner") String owner,
-                                        @PathVariable (value= "repo") String repo){
-        return projectService.postProjectToGitminer(owner,repo);
+                                        @PathVariable (value= "repo") String repo,
+                                        @RequestParam(required = false, defaultValue = "2") Integer sinceCommits,
+                                        @RequestParam(required = false, defaultValue = "20") Integer sinceIssues,
+                                        @RequestParam(required = false, defaultValue = "2") Integer maxPages){
+        return projectService.postProjectToGitminer(owner,repo, sinceCommits, sinceIssues, maxPages);
     }
 
 
