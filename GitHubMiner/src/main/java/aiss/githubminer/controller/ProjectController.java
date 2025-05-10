@@ -25,7 +25,7 @@ public class ProjectController {
     @PostMapping("/{owner}/{repo}")
     public ParsedProject postToGitminer(@PathVariable (value="owner") String owner,
                                         @PathVariable (value= "repo") String repo){
-        return projectService.postProjectToGitminer(owner,repo);
+        return projectService.postToGitminer(owner,repo);
     }
 
 
