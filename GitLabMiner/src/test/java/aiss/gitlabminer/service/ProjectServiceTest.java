@@ -16,15 +16,15 @@ class ProjectServiceTest {
     @Test
     @DisplayName( "Test for getProject method")
     void getProject() {
-        Project project = projectService.getProject("luggzz", "gitlabminer-test");
+        Project project = projectService.getProject("luggzz", "gitlabminer-test", 2, 1);
 
         assertNotNull(project, "Project is null");
         assertNotNull(project.getId(), "Project id is null");
         assertEquals("GitLabMiner-test", project.getName(), "Project name is incorrect");
         assertNotNull(project.getWebUrl(), "Project web url is null");
 
-        assertEquals(4, project.getCommits().size(), "Project commits size is incorrect");
-        assertEquals(2, project.getIssues().size(), "Project issues size is incorrect");
+        assertEquals(2, project.getCommits().size(), "Project commits size is incorrect");
+        assertEquals(1, project.getIssues().size(), "Project issues size is incorrect");
 
         project.getCommits().forEach(commit -> {
             assertNotNull(commit.getId(), "Commit id is null");
@@ -39,15 +39,14 @@ class ProjectServiceTest {
             assertNotNull(issue.getAuthor().getId(), "Issue author id is null");
             assertNotNull(issue.getAuthor().getUsername(), "Issue author username is null");
 
-//            TO FIX: get comments with token
-/*            issue.getComments().forEach(comment -> {
+            issue.getComments().forEach(comment -> {
                 assertNotNull(comment.getId(), "Comment id is null");
                 assertNotNull(comment.getBody(), "Comment body is null");
                 assertNotNull(comment.getCreatedAt(), "Comment created at is null");
                 assertNotNull(comment.getAuthor(), "Comment author is null");
                 assertNotNull(comment.getAuthor().getId(), "Comment author id is null");
                 assertNotNull(comment.getAuthor().getUsername(), "Comment author username is null");
-            });*/
+            });
         });
 
         System.out.println(project);
@@ -56,7 +55,7 @@ class ProjectServiceTest {
     @Test
     @DisplayName("Test for postToGitMiner method")
     void postToGitMiner() {
-        Project project = projectService.postToGitMiner("luggzz", "gitlabminer-test");
+        Project project = projectService.postToGitMiner("luggzz", "gitlabminer-test", 5, 5);
 
         assertNotNull(project, "Project is null");
         assertNotNull(project.getId(), "Project id is null");
@@ -79,15 +78,14 @@ class ProjectServiceTest {
             assertNotNull(issue.getAuthor().getId(), "Issue author id is null");
             assertNotNull(issue.getAuthor().getUsername(), "Issue author username is null");
 
-//            TO FIX: get comments with token
-/*            issue.getComments().forEach(comment -> {
+            issue.getComments().forEach(comment -> {
                 assertNotNull(comment.getId(), "Comment id is null");
                 assertNotNull(comment.getBody(), "Comment body is null");
                 assertNotNull(comment.getCreatedAt(), "Comment created at is null");
                 assertNotNull(comment.getAuthor(), "Comment author is null");
                 assertNotNull(comment.getAuthor().getId(), "Comment author id is null");
                 assertNotNull(comment.getAuthor().getUsername(), "Comment author username is null");
-            });*/
+            });
         });
 
         System.out.println(project);

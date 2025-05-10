@@ -3,6 +3,7 @@ package aiss.gitlabminer.service;
 import aiss.gitlabminer.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,11 +20,14 @@ public class ProjectService {
     @Autowired
     RestTemplate restTemplate;
 
+    @Value("${gitlab.token}")
+    private String token;
+
     /*For the request of a project by its owner and name, the path https://gitlab.com/api/v4/projects/ only takes one
 argument which is the full path owner/project, so, for the path to not process each one as a different argument, / must be
 replaced by %2F in Postman requests, declared as a single parameter here*/
 
-    public Project getProject(String owner, String name) {
+    public Project getProject(String owner, String name, Integer nCommits, Integer nIssues) {
         String param = owner + "/" + name;
 
 //        Get project (single project, no need for pagination)
@@ -36,7 +40,7 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
 
         boolean hasNextPage = true;
         Integer i = 1;
-        while (hasNextPage) {
+        while (hasNextPage && allCommits.size() < nCommits) {
             Commit[] commits = restTemplate.exchange(
                     "https://gitlab.com/api/v4/projects/{projectId}/repository/commits?page={page}&per_page=100",
                     HttpMethod.GET,
@@ -55,11 +59,15 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
             }
         }
 
-        project.setCommits(allCommits);
+        if (allCommits.size() < nCommits) {
+            project.setCommits(allCommits);
+        } else {
+            project.setCommits(allCommits.subList(0, nCommits));
+        }
 
         hasNextPage = true;
         i = 1;
-        while (hasNextPage) {
+        while (hasNextPage && allIssues.size() < nIssues) {
             Issue[] issues = restTemplate.exchange(
                     "https://gitlab.com/api/v4/projects/{projectId}/issues?page={page}&per_page=100",
                     HttpMethod.GET,
@@ -85,28 +93,31 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
                     issue.getAuthor(), issue.getAssignee(), issue.getVotes(), issue.getComments());
             allIssuesParsed.add(parsedIssue);
         }
-
-        project.setIssues(allIssuesParsed);
+        if (allIssuesParsed.size() < nIssues) {
+            project.setIssues(allIssuesParsed);
+        } else {
+            project.setIssues(allIssuesParsed.subList(0, nIssues));
+        }
 
 //        Get comments for each issue and set them in the issues
-//        Comments need authorization to get their info?
-        for (Issue issue : allIssues) {
+//        Comments need authorization to get their info
+        for (Issue issue : allIssues.subList(0, project.getIssues().size())) {
             List<Comment> allComments = new ArrayList<>();
             hasNextPage = true;
             i = 1;
             try {
                 while (hasNextPage) {
                     Comment[] comments = restTemplate.exchange(
-                            "https://gitlab.com/api/v4/projects/{projectId}/issues/{issueIid}/notes?page={page}&per_page=100",
+                            "https://gitlab.com/api/v4/projects/{projectId}/issues/{issueIid}/notes?page={page}&per_page=100&private_token={token}",
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            Comment[].class, project.getId(), issue.getIid(), i).getBody();
+                            Comment[].class, project.getId(), issue.getIid(), i, token).getBody();
                     allComments.addAll(Arrays.asList(comments));
                     HttpHeaders responseHeaders = restTemplate.exchange(
-                            "https://gitlab.com/api/v4/projects/{projectId}/issues/{issueIid}/notes?page={page}&per_page=100",
+                            "https://gitlab.com/api/v4/projects/{projectId}/issues/{issueIid}/notes?page={page}&per_page=100&private_token={token}",
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            Commit[].class, project.getId(), issue.getIid(), i).getHeaders();
+                            Commit[].class, project.getId(), issue.getIid(), i, token).getHeaders();
                     if (responseHeaders.get("x-next-page").getFirst() != "") {
                         i++;
                     } else {
@@ -116,16 +127,16 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
             } catch (HttpClientErrorException.Unauthorized e) {
                 System.out.println("Error getting comments for issue " + issue.getIid() + ": " + e.getMessage());
             } finally {
-                issue.setComments(allComments);
+                project.getIssues().get(allIssues.indexOf(issue)).setComments(allComments);
             }
         }
 
         return project;
     }
 
-    public Project postToGitMiner(String owner, String name) {
+    public Project postToGitMiner(String owner, String name, Integer nCommits, Integer nIssues) {
         Project createdProject = null;
-        Project project = getProject(owner, name);
+        Project project = getProject(owner, name, nCommits, nIssues);
         try {
             createdProject = restTemplate.postForObject("http://localhost:8080/gitminer/projects", project, Project.class);
         } catch (RestClientException e) {
