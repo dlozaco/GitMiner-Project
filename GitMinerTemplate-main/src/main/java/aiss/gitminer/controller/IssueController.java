@@ -1,6 +1,7 @@
 package aiss.gitminer.controller;
 
 
+import aiss.gitminer.exception.ResourceNotFoundException;
 import aiss.gitminer.model.Comment;
 import aiss.gitminer.model.Issue;
 import aiss.gitminer.repository.IssueRepository;
@@ -12,8 +13,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
+import aiss.gitminer.exception.ResourceNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,19 +42,31 @@ public class IssueController {
 
     @GetMapping
     public List<Issue> getAllIssues(@Parameter(description = "Obtaining all the ISSUES, and you can filter for the Author's ID or the state of the ISSUE")
+                                        @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size,
                                         @RequestParam(required = false) String author_id,
-                                        @RequestParam(required = false) String state) {
+                                        @RequestParam(required = false) String state,
+                                        @RequestParam(required=false) String order){
+
+        Pageable paging = PageRequest.of(page,size);
+        if (order!=null){
+            if(order.startsWith("-")){
+                paging= PageRequest.of(page,size, Sort.by(order.substring(1)).descending());
+            } else{
+                paging= PageRequest.of(page,size,Sort.by(order).ascending());
+            }
+        }
 
         if (author_id != null && state != null) {
-            return issueRepository.findByAuthor_IdAndState(author_id, state);
+            return issueRepository.findByAuthor_IdAndState(author_id, state, paging);
         }
         if (author_id != null) {
-            return issueRepository.findByAuthor_Id(author_id);
+            return issueRepository.findByAuthor_Id(author_id, paging);
         }
         if (state != null) {
-            return issueRepository.findByState(state);
+            return issueRepository.findByState(state, paging);
             }
-        return issueRepository.findAll();
+        return issueRepository.findAll(paging).getContent();
     }
 
     @Operation(
@@ -62,8 +79,11 @@ public class IssueController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema()))
     })
     @GetMapping("/{id}")
-    public Issue getIssueById(@PathVariable String id) {
+    public Issue getIssueById(@PathVariable String id) throws ResourceNotFoundException {
         Optional<Issue> issue = issueRepository.findById(id);
+        if (issue.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
         return issue.orElse(null);
     }
 
@@ -77,7 +97,7 @@ public class IssueController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema()))
     })
     @GetMapping("/{id}/comments")
-    public List<Comment>  getAllCommentsByIssueId(@PathVariable String id) {
+    public List<Comment>  getAllCommentsByIssueId(@PathVariable String id) throws ResourceNotFoundException {
         Issue issue = getIssueById(id);
         return issue.getComments();
     }

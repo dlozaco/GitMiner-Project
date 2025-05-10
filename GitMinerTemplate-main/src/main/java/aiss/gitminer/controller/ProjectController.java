@@ -1,5 +1,6 @@
 package aiss.gitminer.controller;
 
+import aiss.gitminer.exception.ResourceNotFoundException;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.ProjectRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -67,7 +68,10 @@ public class ProjectController {
             @ApiResponse(responseCode = "404", description = "Project not found", content = @Content(schema = @Schema()))
     })
     @GetMapping("/{id}")
-    public Project findOne(@Parameter(description = "id of the project to search") @PathVariable(value = "id") String id){
+    public Project findOne(@Parameter(description = "id of the project to search") @PathVariable(value = "id") String id) throws ResourceNotFoundException{
+        if (!projectRepository.existsById(id)) {
+            throw new ResourceNotFoundException();
+        }
         return projectRepository.findById(id).get();
     }
 
@@ -100,9 +104,11 @@ public class ProjectController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateProject(@Parameter(description = "id of the project to be updated" ) @PathVariable(value = "id") String id,
-                              @Parameter(description = "body of the project to be updated") @Valid @RequestBody Project body){
+                              @Parameter(description = "body of the project to be updated") @Valid @RequestBody Project body) throws ResourceNotFoundException{
         Optional<Project> projectData = projectRepository.findById(id);
-
+        if (projectData.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
         Project project = projectData.get();
         project.setName(body.getName());
         project.setWebUrl(body.getWebUrl());
@@ -124,9 +130,11 @@ public class ProjectController {
     })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProject(@Parameter(description = "id of the project to be deleted" ) @PathVariable(value = "id") String id) {
+    public void deleteProject(@Parameter(description = "id of the project to be deleted" ) @PathVariable(value = "id") String id) throws ResourceNotFoundException {
         if(projectRepository.existsById(id)){
             projectRepository.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException();
         }
     }
 }

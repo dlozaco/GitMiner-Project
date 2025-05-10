@@ -1,5 +1,6 @@
 package aiss.gitminer.controller;
 
+import aiss.gitminer.exception.ResourceNotFoundException;
 import aiss.gitminer.model.Commit;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.CommitRepository;
@@ -67,7 +68,10 @@ public class CommitController {
             @ApiResponse(responseCode = "404", description = "Commit not found", content = @Content(schema = @Schema()))
     })
     @GetMapping("/{id}")
-    public Commit findOne(@Parameter(description = "id of the commit to search") @PathVariable(value = "id") String id){
+    public Commit findOne(@Parameter(description = "id of the commit to search") @PathVariable(value = "id") String id) throws ResourceNotFoundException {
+        if(!commitRepository.existsById(id)) {
+            throw new ResourceNotFoundException();
+        }
         return commitRepository.findById(id).get();
     }
 }

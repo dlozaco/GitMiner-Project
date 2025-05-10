@@ -10,7 +10,7 @@ public class Comment {
 //    id in GitMiner model
     @JsonProperty("id")
     @NotEmpty(message = "The comment must have an id")
-    private Long id;
+    private String id;
 
 //    body in GitMiner model
     @JsonProperty("body")
@@ -31,12 +31,12 @@ public class Comment {
     private String updatedAt;
 
     @JsonProperty("id")
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

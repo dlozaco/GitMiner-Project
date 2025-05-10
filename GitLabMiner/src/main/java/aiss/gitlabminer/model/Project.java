@@ -15,7 +15,7 @@ public class Project {
 
 //    id in GitMiner model
     @JsonProperty("id")
-    private Integer id;
+    private String id;
 
 //    name in GitMiner model
     @JsonProperty("name")
@@ -34,12 +34,12 @@ public class Project {
     private List<IssueParsed> issues;
 
     @JsonProperty("id")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

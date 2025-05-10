@@ -9,7 +9,7 @@ public class User {
 
 //    id in GitMiner model
     @JsonProperty("id")
-    private Integer id;
+    private String id;
 
 //    username in GitMiner model
     @JsonProperty("username")
@@ -29,12 +29,12 @@ public class User {
     private String webUrl;
 
     @JsonProperty("id")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
