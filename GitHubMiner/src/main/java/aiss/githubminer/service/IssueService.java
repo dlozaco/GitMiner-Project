@@ -2,7 +2,9 @@ package aiss.githubminer.service;
 
 import aiss.githubminer.model.issue.Issue;
 import aiss.githubminer.model.issue.Label;
+import aiss.githubminer.model.issue.User;
 import aiss.githubminer.parsedmodel.ParsedIssue;
+import aiss.githubminer.parsedmodel.ParsedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -58,9 +60,9 @@ public class IssueService {
                     issue.getUpdatedAt(),
                     issue.getClosedAt(),
                     labels,
-                    issue.getUser(),
+                    parseUser(issue.getUser()),
                     votes,
-                    issue.getAsignee(),
+                    parseUser(issue.getAsignee()),
                     commentService.getAllComments(issue.getComments_url())
             );
             res.add(newIssue);
@@ -68,5 +70,18 @@ public class IssueService {
 
         return res;
 
+    }
+
+    private ParsedUser parseUser(User user) {
+        if(user == null){
+            return null;
+        }
+        return new ParsedUser(
+                user.getId(),
+                user.getLogin(),
+                user.getLogin().replaceAll("[^a-zA-Z0-9]", ""),
+                user.getAvatarUrl(),
+                user.getHtmlUrl()
+        );
     }
 }

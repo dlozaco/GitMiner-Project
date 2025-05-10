@@ -1,37 +1,46 @@
 
-package aiss.githubminer.model.issue;
+package aiss.githubminer.parsedmodel;
 
+import aiss.githubminer.model.issue.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Comment {
+public class ParsedComment {
 
     @JsonProperty("id")
-    private long id;
+    private String id;
     @JsonProperty("body")
     private String body;
+    @JsonProperty("author")
+    private ParsedUser author;
     @JsonProperty("created_at")
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
-    @JsonProperty("user")
-    private User user;
 
-    @JsonProperty("user")
-    public User getUser() {
-        return user;
+    public ParsedComment(String id, String body, ParsedUser author, String createdAt, String updatedAt) {
+        this.id = id;
+        this.body = body;
+        this.author = author;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
-    @JsonProperty("user")
-    public void setUser(User user) {
-        this.user = user;
+
+    @JsonProperty("author")
+    public ParsedUser getAuthor() {
+        return author;
+    }
+    @JsonProperty("author")
+    public void setAuthor(ParsedUser user) {
+        this.author = user;
     }
 
     @JsonProperty("id")
-    public long getId() { return id; }
+    public String getId() { return id; }
 
     @JsonProperty("id")
-    public void setId(long id) { this.id = id; }
+    public void setId(String id) { this.id = id; }
 
     @JsonProperty("body")
     public String getBody() {
@@ -66,7 +75,7 @@ public class Comment {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Comment.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(ParsedComment.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("createdAt");
         sb.append('=');
         sb.append(((this.createdAt == null)?"<null>":this.createdAt));
