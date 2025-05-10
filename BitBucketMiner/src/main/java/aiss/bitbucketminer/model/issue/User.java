@@ -2,12 +2,10 @@ package aiss.bitbucketminer.model.issue;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Reporter {
+public class User {
 
     @JsonProperty("display_name")
     private String displayName;
@@ -85,7 +83,7 @@ public class Reporter {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Reporter.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(User.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("displayName");
         sb.append('=');
         sb.append(((this.displayName == null)?"<null>":this.displayName));
