@@ -14,7 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -31,19 +34,28 @@ public class IssueService {
 
     String baseUri = "https://api.github.com/repos/";
 
-    public List<ParsedIssue> getAllIssues(String owner, String repo){
+    public List<ParsedIssue> getAllIssues(String owner, String repo, Integer sinceIssue, Integer maxPages) {
         String url = baseUri + owner + "/" + repo + "/issues";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
-        HttpEntity<Issue[]> request = new HttpEntity<>(null, headers);
-        ResponseEntity<Issue[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Issue[].class);
-        Issue[] issues = response.getBody();
-        List<ParsedIssue> allIssues = parseIssues(issues);
+        Integer currentPage = 0;
+        List<Issue> issues = new ArrayList<>();
+        while(currentPage < maxPages){
+            String newUrl = "?page=" + currentPage;
+            HttpEntity<Issue[]> request = new HttpEntity<>(null, headers);
+            ResponseEntity<Issue[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Issue[].class);
+            issues.addAll(Arrays.asList(response.getBody()));
+
+            if(issues.isEmpty()) break;
+            newUrl= url;
+            currentPage++;
+        }
+        List<ParsedIssue> allIssues = parseIssues(issues, sinceIssue);
         return allIssues;
     }
 
-    private List<ParsedIssue> parseIssues(Issue[] issues) {
+    private List<ParsedIssue> parseIssues(List<Issue> issues, Integer sinceIssue) {
         List<ParsedIssue> res = new ArrayList<>();
         for(Issue issue:issues){
             List<String> labels = new ArrayList<>();
@@ -65,7 +77,11 @@ public class IssueService {
                     parseUser(issue.getAsignee()),
                     commentService.getAllComments(issue.getComments_url())
             );
-            res.add(newIssue);
+            String cleanedDate = issue.getUpdatedAt().replace("Z", "");
+            LocalDateTime localDateTime = LocalDateTime.parse(cleanedDate);
+            if(ChronoUnit.DAYS.between(localDateTime, LocalDateTime.now()) < sinceIssue){
+                res.add(newIssue);
+            }
         }
 
         return res;

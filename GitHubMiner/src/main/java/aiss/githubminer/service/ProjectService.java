@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -34,16 +35,17 @@ public class ProjectService {
 
     String baseUri = "https://api.github.com/repos/";
 
-    public ParsedProject getProject(String owner, String repo){
-        String url = baseUri + owner + "/" + repo;
+    public ParsedProject getProject(String owner, String repo, Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
+
+        String url = baseUri + owner + "/" + repo + "?per_page=" + maxPages;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
         HttpEntity<Project> request = new HttpEntity<>(null, headers);
         ResponseEntity<Project> response = restTemplate.exchange(url, HttpMethod.GET, request, Project.class);
         Project project = response.getBody();
-        List<ParsedCommit> commits = commitService.getAllCommits(owner, repo);
-        List<ParsedIssue> issues = issueService.getAllIssues(owner, repo);
+        List<ParsedCommit> commits = commitService.getAllCommits(owner, repo, sinceCommits, maxPages);
+        List<ParsedIssue> issues = issueService.getAllIssues(owner, repo, sinceIssues, maxPages);
 
         ParsedProject parsedProject = new ParsedProject(
                 String.valueOf(project.getId()),
@@ -56,9 +58,9 @@ public class ProjectService {
         return parsedProject;
     }
 
-    public ParsedProject postProjectToGitminer(String owner, String repo){
+    public ParsedProject postProjectToGitminer(String owner, String repo, Integer sinceCommits, Integer sinceIssues, Integer maxPages){
         ParsedProject newProject = null;
-        ParsedProject project = getProject(owner, repo);
+        ParsedProject project = getProject(owner, repo, sinceCommits, sinceIssues, maxPages);
         try {
             newProject = restTemplate.postForObject("http://localhost:8080/gitminer/projects", project, ParsedProject.class);
         } catch (Exception e) {

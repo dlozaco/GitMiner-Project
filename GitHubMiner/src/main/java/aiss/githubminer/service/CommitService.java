@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,21 +32,33 @@ public class CommitService {
 
     String baseUri = "https://api.github.com/repos/";
 
-    public List<ParsedCommit> getAllCommits(String owner, String repo) {
+    public List<ParsedCommit> getAllCommits(String owner, String repo, Integer sinceCommits, Integer maxPages) {
         String url = baseUri + owner + "/" + repo + "/commits";
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + token);
 
-        HttpEntity<Commit[]> request = new HttpEntity<>(null, headers);
-        ResponseEntity<Commit[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Commit[].class);
 
-        List<Commit> commits = Arrays.asList(response.getBody());
-        List<ParsedCommit> parsedCommits = parseCommits(commits);
+        Integer currentPage = 0;
+        List<Commit> commits = new ArrayList<>();
+        while(currentPage < maxPages){
+            String newUrl = url+"?page=" + currentPage;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + token);
+            HttpEntity<Commit[]> request = new HttpEntity<>(null, headers);
+            System.out.println("Requesting: " + newUrl);
+            ResponseEntity<Commit[]> response = restTemplate.exchange(newUrl, HttpMethod.GET, request, Commit[].class);
+
+            commits.addAll(Arrays.asList(response.getBody()));
+            if(commits.isEmpty()) break;
+
+            newUrl= url;
+            currentPage++;
+        }
+        List<ParsedCommit> parsedCommits = parseCommits(commits, sinceCommits);
 
         return parsedCommits;
     }
 
-    public List<ParsedCommit> parseCommits(List<Commit> commits){
+    public List<ParsedCommit> parseCommits(List<Commit> commits, Integer sinceCommits) {
         List<ParsedCommit> res = new ArrayList<>();
         for(Commit commit:commits){
             Commit__1 body = commit.getCommit();
@@ -58,7 +73,15 @@ public class CommitService {
             ParsedCommit parsedCommit = new ParsedCommit(
                     sha, title, message, author_name, author_email, author_date, url
             );
-            res.add(parsedCommit);
+            //parse date
+            String cleanedDate = author_date.replace("Z", "");
+            LocalDateTime localDateTime = LocalDateTime.parse(cleanedDate);
+            long diference = ChronoUnit.DAYS.between(localDateTime, LocalDateTime.now());
+            System.out.println(diference);
+            System.out.println("Since commits: " + sinceCommits);
+            if(diference < sinceCommits){
+                res.add(parsedCommit);
+            }
         }
         return res;
     }
