@@ -1,5 +1,6 @@
 package aiss.gitminer.controller;
 
+import aiss.gitminer.exception.ResourceNotFoundException;
 import aiss.gitminer.model.Commit;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.CommitRepository;
@@ -33,10 +34,10 @@ public class CommitController {
             tags = { "commits", "get all" }
     )
     @GetMapping
-    public List<Commit> findAllCommits(@RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "10") int size,
-                                       @RequestParam(required = false) String author_name,
-                                       @RequestParam(required = false) String order){
+    public List<Commit> findAllCommits(@Parameter(description = "number of pages to show") @RequestParam(defaultValue = "0") int page,
+                                       @Parameter(description = "size of pages") @RequestParam(defaultValue = "10") int size,
+                                       @Parameter(description = "property to filter") @RequestParam(required = false) String author_name,
+                                       @Parameter(description = "order") @RequestParam(required = false) String order){
         Page<Commit> pageCommits;
         Pageable paging;
 
@@ -67,7 +68,10 @@ public class CommitController {
             @ApiResponse(responseCode = "404", description = "Commit not found", content = @Content(schema = @Schema()))
     })
     @GetMapping("/{id}")
-    public Commit findOne(@Parameter(description = "id of the commit to search") @PathVariable(value = "id") String id){
+    public Commit findOne(@Parameter(description = "id of the commit to search") @PathVariable(value = "id") String id) throws ResourceNotFoundException {
+        if(!commitRepository.existsById(id)) {
+            throw new ResourceNotFoundException();
+        }
         return commitRepository.findById(id).get();
     }
 }

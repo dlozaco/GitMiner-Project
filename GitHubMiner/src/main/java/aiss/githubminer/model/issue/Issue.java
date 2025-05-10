@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Issue {
 
     @JsonProperty("id")
-    private String id;
+    private long id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("body")
@@ -45,12 +45,12 @@ public class Issue {
     }
 
     @JsonProperty("id")
-    public String getId() {
+    public long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -75,11 +75,6 @@ public class Issue {
 
     @JsonProperty("state")
     public void setState(String state) { this.state = state; }
-
-    @JsonProperty("labels")
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
-    }
 
     @JsonProperty("created_at")
     public String getCreatedAt() {
@@ -114,6 +109,11 @@ public class Issue {
     @JsonProperty("labels")
     public List<Label> getLabels() {
         return labels;
+    }
+
+    @JsonProperty("labels")
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
     }
 
     @JsonProperty("user")

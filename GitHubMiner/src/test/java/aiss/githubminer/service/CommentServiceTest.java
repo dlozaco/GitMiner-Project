@@ -1,6 +1,7 @@
 package aiss.githubminer.service;
 
 import aiss.githubminer.model.issue.Comment;
+import aiss.githubminer.parsedmodel.ParsedComment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,10 +17,11 @@ class CommentServiceTest {
     CommentService commentService;
 
     @Test
-    void getAllComments() {
+    void testGetAllComments() {
         String url = "https://api.github.com/repos/dlozaco/tetrio-comparator/issues/1/comments";
-        List<Comment> comments = commentService.getAllComments(url);
-        assertNotNull(comments);
+        List<ParsedComment> comments = commentService.getAllComments(url);
+        assertNotNull(comments, "Comments are null");
+        assertFalse(comments.isEmpty(), "Comments are empty");
         System.out.println(comments);
     }
 }
