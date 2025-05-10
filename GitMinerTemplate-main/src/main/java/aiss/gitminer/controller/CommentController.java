@@ -1,6 +1,7 @@
 package aiss.gitminer.controller;
 
 
+import aiss.gitminer.exception.ResourceNotFoundException;
 import aiss.gitminer.model.Comment;
 import aiss.gitminer.model.Issue;
 import aiss.gitminer.repository.CommentRepository;
@@ -61,9 +62,12 @@ public class   CommentController {
             tags={"comments","find by id"}
     )
     @GetMapping("/{id}")
-    public Comment findCommentById(@PathVariable (value="id") String commentId) {
+    public Comment findCommentById(@PathVariable (value="id") String commentId) throws ResourceNotFoundException {
 
         Optional<Comment> iss= repository.findById(commentId);
+        if (iss.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
         return iss.get();
 
     }
