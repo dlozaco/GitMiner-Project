@@ -1,27 +1,18 @@
 
-package aiss.bitbucketminer.model;
+package aiss.bitbucketminer.model.comment;
 
-import javax.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "display_name",
-    "links",
-    "type",
-    "uuid",
-    "account_id",
-    "nickname"
-})
-@Generated("jsonschema2pojo")
-public class Owner {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class User {
 
     @JsonProperty("display_name")
     private String displayName;
     @JsonProperty("links")
-    private Links__1 links;
+    private Links links;
     @JsonProperty("type")
     private String type;
     @JsonProperty("uuid")
@@ -42,12 +33,12 @@ public class Owner {
     }
 
     @JsonProperty("links")
-    public Links__1 getLinks() {
+    public Links getLinks() {
         return links;
     }
 
     @JsonProperty("links")
-    public void setLinks(Links__1 links) {
+    public void setLinks(Links links) {
         this.links = links;
     }
 
@@ -94,7 +85,7 @@ public class Owner {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Owner.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(User.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("displayName");
         sb.append('=');
         sb.append(((this.displayName == null)?"<null>":this.displayName));
