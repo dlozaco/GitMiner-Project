@@ -10,6 +10,7 @@ import aiss.bitbucketminer.model.parsedModels.ParsedProject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -50,6 +51,17 @@ public class ProjectService {
 
         );
         return parsedProject;
+    }
+
+    public ParsedProject postProject(@PathVariable String owner, @PathVariable String repo) {
+        ParsedProject newProject = null;
+        ParsedProject project = getProject(owner, repo);
+        try {
+            newProject = restTemplate.postForObject("http://localhost:8081/gitminer/projects", project, ParsedProject.class);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return newProject;
     }
 
 
