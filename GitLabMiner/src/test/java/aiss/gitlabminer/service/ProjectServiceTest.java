@@ -39,15 +39,14 @@ class ProjectServiceTest {
             assertNotNull(issue.getAuthor().getId(), "Issue author id is null");
             assertNotNull(issue.getAuthor().getUsername(), "Issue author username is null");
 
-//            TO FIX: get comments with token
-/*            issue.getComments().forEach(comment -> {
+            issue.getComments().forEach(comment -> {
                 assertNotNull(comment.getId(), "Comment id is null");
                 assertNotNull(comment.getBody(), "Comment body is null");
                 assertNotNull(comment.getCreatedAt(), "Comment created at is null");
                 assertNotNull(comment.getAuthor(), "Comment author is null");
                 assertNotNull(comment.getAuthor().getId(), "Comment author id is null");
                 assertNotNull(comment.getAuthor().getUsername(), "Comment author username is null");
-            });*/
+            });
         });
 
         System.out.println(project);
@@ -79,15 +78,14 @@ class ProjectServiceTest {
             assertNotNull(issue.getAuthor().getId(), "Issue author id is null");
             assertNotNull(issue.getAuthor().getUsername(), "Issue author username is null");
 
-//            TO FIX: get comments with token
-/*            issue.getComments().forEach(comment -> {
+            issue.getComments().forEach(comment -> {
                 assertNotNull(comment.getId(), "Comment id is null");
                 assertNotNull(comment.getBody(), "Comment body is null");
                 assertNotNull(comment.getCreatedAt(), "Comment created at is null");
                 assertNotNull(comment.getAuthor(), "Comment author is null");
                 assertNotNull(comment.getAuthor().getId(), "Comment author id is null");
                 assertNotNull(comment.getAuthor().getUsername(), "Comment author username is null");
-            });*/
+            });
         });
 
         System.out.println(project);

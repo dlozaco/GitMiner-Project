@@ -3,6 +3,7 @@ package aiss.gitlabminer.service;
 import aiss.gitlabminer.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,9 @@ public class ProjectService {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Value("${gitlab.token}")
+    private String token;
 
     /*For the request of a project by its owner and name, the path https://gitlab.com/api/v4/projects/ only takes one
 argument which is the full path owner/project, so, for the path to not process each one as a different argument, / must be
@@ -104,16 +108,16 @@ replaced by %2F in Postman requests, declared as a single parameter here*/
             try {
                 while (hasNextPage) {
                     Comment[] comments = restTemplate.exchange(
-                            "https://gitlab.com/api/v4/projects/{projectId}/issues/{issueIid}/notes?page={page}&per_page=100",
+                            "https://gitlab.com/api/v4/projects/{projectId}/issues/{issueIid}/notes?page={page}&per_page=100&private_token={token}",
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            Comment[].class, project.getId(), issue.getIid(), i).getBody();
+                            Comment[].class, project.getId(), issue.getIid(), i, token).getBody();
                     allComments.addAll(Arrays.asList(comments));
                     HttpHeaders responseHeaders = restTemplate.exchange(
-                            "https://gitlab.com/api/v4/projects/{projectId}/issues/{issueIid}/notes?page={page}&per_page=100",
+                            "https://gitlab.com/api/v4/projects/{projectId}/issues/{issueIid}/notes?page={page}&per_page=100&private_token={token}",
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            Commit[].class, project.getId(), issue.getIid(), i).getHeaders();
+                            Commit[].class, project.getId(), issue.getIid(), i, token).getHeaders();
                     if (responseHeaders.get("x-next-page").getFirst() != "") {
                         i++;
                     } else {
