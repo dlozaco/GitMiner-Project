@@ -44,7 +44,9 @@ public class CommentService {
             String createdAt = comment.getCreatedOn().toString();
             String updatedAt = comment.getUpdatedOn() != null ? comment.getUpdatedOn().toString() : null;
             ParsedUser author = userService.parseUser(comment.getUser());
-
+            if(body == null){
+                body = "No body";
+            }
             ParsedComment parsedComment = new ParsedComment(id, body, createdAt, updatedAt, author);
             parsedComments.add(parsedComment);
         }

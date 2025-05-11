@@ -1,6 +1,5 @@
 package aiss.bitbucketminer.model.parsedModels;
 
-import aiss.bitbucketminer.model.comment.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,42 +21,52 @@ public class ParsedComment {
     @JsonProperty("author")
     private ParsedUser author;
 
+    @JsonProperty("id")
     public String getId() {
         return id;
     }
 
+    @JsonProperty("id")
     public void setId(String id) {
         this.id = id;
     }
 
+    @JsonProperty("body")
     public String getBody() {
         return body;
     }
 
+    @JsonProperty("body")
     public void setBody(String body) {
         this.body = body;
     }
 
+    @JsonProperty("created_at")
     public String getCreatedAt() {
         return createdAt;
     }
 
+    @JsonProperty("created_at")
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
+    @JsonProperty("updated_at")
     public String getUpdatedAt() {
         return updatedAt;
     }
 
+    @JsonProperty("updated_at")
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 
+    @JsonProperty("author")
     public ParsedUser getAuthor() {
         return author;
     }
 
+    @JsonProperty("author")
     public void setAuthor(ParsedUser author) {
         this.author = author;
     }
