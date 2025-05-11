@@ -1,5 +1,6 @@
 package aiss.bitbucketminer.service;
 
+import aiss.bitbucketminer.model.commit.Commit;
 import aiss.bitbucketminer.model.issue.Issue;
 import aiss.bitbucketminer.model.parsedModels.ParsedCommit;
 import aiss.bitbucketminer.model.parsedModels.ParsedIssue;
@@ -30,37 +31,21 @@ public class ProjectService {
     @Autowired
     IssueService issueService;
 
-    public ParsedProject getProject(String owner, String repo){
-        String url = "https://api.bitbucket.org/2.0/repositories/" + owner + "/" + repo;
+    public ParsedProject getProject(String workspace, String repo, Integer nCommits, Integer nIssues, Integer maxPages) {
+        String url = "https://api.bitbucket.org/2.0/repositories/" + workspace + "/" + repo;
+        Project project = restTemplate.getForObject(url, Project.class);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-
-        HttpEntity<Project> request = new HttpEntity<>(null, headers);
-
-        ResponseEntity<Project> response = restTemplate.exchange(url, HttpMethod.GET, request, Project.class);
-
-        Project project = response.getBody();
-        List<ParsedCommit> commits = commitService.getCommits(owner, repo);
-        List<ParsedIssue> issues = issueService.getAllIssues(owner, repo);
-
-        String webUrl = project.getLinks().getHtml().getHref();
-
-        ParsedProject parsedProject = new ParsedProject(
-                project.getUuid(),
-                project.getName(),
-                webUrl,
-                commits,
-                issues
-
-        );
-        return parsedProject;
+        String id = project.getUuid();
+        String name = project.getName();
+        String web_url = project.getLinks().getSelf().getHref();
+        List<ParsedCommit> commits = commitService.getCommits(url + "/commits", nCommits, maxPages);
+        List<ParsedIssue> issues = issueService.getAllIssues(url + "/issues", nIssues, maxPages);
+        return new ParsedProject(id, name, web_url, commits, issues);
     }
 
-    public ParsedProject postProject(@PathVariable String owner, @PathVariable String repo) {
+    public ParsedProject postProject(@PathVariable String workspace, @PathVariable String repo, Integer nCommits, Integer nIssues, Integer maxPages) {
         ParsedProject newProject = null;
-        ParsedProject project = getProject(owner, repo);
-
+        ParsedProject project = getProject(workspace, repo, nCommits, nIssues, maxPages);
         try {
             newProject = restTemplate.postForObject("http://localhost:8080/gitminer/projects", project, ParsedProject.class);
         } catch (Exception e) {

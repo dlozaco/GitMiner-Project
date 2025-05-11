@@ -28,38 +28,37 @@ public class IssueService {
     @Autowired
     UserService userService;
 
-    public List<ParsedIssue> getAllIssues(String owner, String repo) {
-        String uri = "https://api.bitbucket.org/2.0/repositories/" + owner + "/" + repo + "/issues";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> request = new HttpEntity<>(null, headers);
-
-        ResponseEntity<IssuePage> response = restTemplate.exchange(uri, HttpMethod.GET, request, IssuePage.class);
-
-        List<Issue> issues = response.getBody().getIssues();
-        return parseIssues(issues);
+    public List<ParsedIssue> getAllIssues(String uri, Integer nIssues, Integer maxPages) {
+        IssuePage issues = restTemplate.getForObject(uri, IssuePage.class);
+        return parseIssues(issues, nIssues, maxPages);
     }
 
-    public List<ParsedIssue> parseIssues(List<Issue> issues) {
+    public List<ParsedIssue> parseIssues(IssuePage issues, Integer nIssues, Integer maxPages) {
         List<ParsedIssue> parsedIssues = new ArrayList<>();
-        for (Issue issue : issues) {
-                    String id = issue.getId().toString();
-                    String title = issue.getTitle();
-                    String description = issue.getContent().getRaw();
-                    String state = issue.getState();
-                    String createdAt = issue.getCreatedOn();
-                    String updatedAt = issue.getUpdatedOn();
-                    String closedAt = null;
-                    List<String> labels = new ArrayList<>();
-                    Integer votes = issue.getVotes(); //???
-                    ParsedUser author = userService.parseUser(issue.getAuthor());
-                    ParsedUser assignee = userService.parseUser(issue.getAssignee());
-                    List<ParsedComment> comments= commentService.getComments(issue.getLinks().getComments().getHref());
+        for (Issue issue : issues.getIssues()) {
+            String id = issue.getId().toString();
+            String title = issue.getTitle();
+            String description = issue.getContent().getRaw();
+            String state = issue.getState();
+            String createdAt = issue.getCreatedOn();
+            String updatedAt = issue.getUpdatedOn();
+            String closedAt = null;
+            List<String> labels = new ArrayList<>();
+            Integer votes = issue.getVotes(); //???
+            ParsedUser author = userService.parseUser(issue.getAuthor());
+            ParsedUser assignee = userService.parseUser(issue.getAssignee());
+            List<ParsedComment> comments= commentService.getComments(issue.getLinks().getComments().getHref());
 
-                    ParsedIssue parsedIssue = new ParsedIssue(id, title, description, state, createdAt, updatedAt,
-                            closedAt, labels, votes, author, assignee, comments);
-                    parsedIssues.add(parsedIssue);
+            ParsedIssue parsedIssue = new ParsedIssue(id, title, description, state, createdAt, updatedAt,
+                    closedAt, labels, votes, author, assignee, comments);
+            parsedIssues.add(parsedIssue);
+
+            if (parsedIssues.size() == nIssues) {
+                break;
+            }
+        }
+        if (issues.getNext() != null && issues.getPage() < maxPages) {
+            parsedIssues.addAll(getAllIssues(issues.getNext(), nIssues, maxPages));
         }
         return parsedIssues;
     }

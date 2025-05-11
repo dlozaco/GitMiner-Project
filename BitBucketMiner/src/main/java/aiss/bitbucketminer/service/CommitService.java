@@ -18,22 +18,16 @@ public class CommitService {
     @Autowired
     RestTemplate restTemplate;
 
-    public List<ParsedCommit> getCommits(String owner, String repo) {
-        String uri = "https://api.bitbucket.org/2.0/repositories/" + owner + "/" + repo + "/commits";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> request = new HttpEntity<>(null, headers);
-        ResponseEntity<CommitPage> response = restTemplate.exchange(uri, HttpMethod.GET, request, CommitPage.class);
-
-        List<Commit> commits = response.getBody().getCommits();
-        return parseCommits(commits);
+    public List<ParsedCommit> getCommits(String url, Integer nCommits, Integer maxPages) {
+        // CommitPage commits = null;
+        CommitPage commits = restTemplate.getForObject(url, CommitPage.class);
+        return parseCommits(commits, nCommits, maxPages);
     }
 
-    public List<ParsedCommit> parseCommits(List<Commit> commits) {
+    public List<ParsedCommit> parseCommits(CommitPage commits, Integer nCommits, Integer maxPages) {
         List<ParsedCommit> parsedCommits = new ArrayList<>();
 
-        for (Commit commit : commits) {
+        for (Commit commit : commits.getCommits()) {
             String hash = commit.getHash();
             String message = commit.getMessage();
             String title = message.split("\n")[0];
@@ -47,7 +41,14 @@ public class CommitService {
 
             ParsedCommit parsedCommit = new ParsedCommit(hash, title, message, authorName, authorEmail, authoredDate, webUrl);
             parsedCommits.add(parsedCommit);
+
+            if (parsedCommits.size() == nCommits) {
+                break;
+            }
         }
+        if (commits.getNext() != null && (Integer.valueOf(commits.getNext().split("&page=")[1]))-1 < maxPages) {
+            parsedCommits.addAll(getCommits(commits.getNext(), nCommits, maxPages));
+            }
         return parsedCommits;
     }
 

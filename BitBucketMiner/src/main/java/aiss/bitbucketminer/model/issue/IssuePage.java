@@ -19,6 +19,9 @@ public class IssuePage {
     @JsonProperty("page")
     private Integer page;
 
+    @JsonProperty("next")
+    private String next;
+
     public List<Issue> getIssues() {
         return issues;
     }
@@ -49,6 +52,16 @@ public class IssuePage {
 
     public void setPage(Integer page) {
         this.page = page;
+    }
+
+    @JsonProperty("next")
+    public String getNext() {
+        return next;
+    }
+
+    @JsonProperty("next")
+    public void setNext(String next) {
+        this.next = next;
     }
 
     @Override

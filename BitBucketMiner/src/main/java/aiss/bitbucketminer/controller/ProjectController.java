@@ -18,13 +18,15 @@ public class ProjectController {
     RestTemplate restTemplate;
 
     @GetMapping("/{workspace}/{repo}")
-    public ParsedProject getProject(@PathVariable String workspace, @PathVariable String repo) {
-        return projectService.getProject(workspace, repo);
+    public ParsedProject getProject(@PathVariable String workspace, @PathVariable String repo, @RequestParam(defaultValue = "5") Integer nCommits,
+                                    @RequestParam(defaultValue = "5") Integer nIssues, @RequestParam(defaultValue = "2") Integer maxPages) {
+        return projectService.getProject(workspace, repo, nCommits, nIssues, maxPages);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{workspace}/{repo}")
-    public ParsedProject postToGitminer(@PathVariable String workspace, @PathVariable String repo) {
-        return projectService.postProject(workspace, repo);
+    public ParsedProject postToGitminer(@PathVariable String workspace, @PathVariable String repo, @RequestParam(defaultValue = "5") Integer nCommits,
+                                        @RequestParam(defaultValue = "5") Integer nIssues, @RequestParam(defaultValue = "2") Integer maxPages) {
+        return projectService.postProject(workspace, repo, nCommits, nIssues, maxPages);
     }
 }
