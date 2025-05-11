@@ -32,21 +32,25 @@ public class CommitService {
     String baseUri = "https://api.github.com/repos/";
 
     public List<ParsedCommit> getAllCommits(String owner, String repo, Integer sinceCommits, Integer maxPages) {
-        String url = baseUri + owner + "/" + repo + "/commits?per_page=" + maxPages;
+        String url = baseUri + owner + "/" + repo + "/commits";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
         Integer currentPage = 0;
         List<Commit> commits = new ArrayList<>();
-        while(url != null && currentPage < maxPages){
-            HttpEntity<Commit[]> request = new HttpEntity<>(null, headers);
-            System.out.println("Requesting: " + url);
-            ResponseEntity<Commit[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Commit[].class);
-            if(response.getBody()!= null) {
-                commits.addAll(Arrays.asList(response.getBody()));
+        try {
+            while (currentPage < maxPages) {
+                HttpEntity<Commit[]> request = new HttpEntity<>(null, headers);
+                System.out.println("Requesting: " + url);
+                ResponseEntity<Commit[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Commit[].class);
+                if (response.getBody() != null) {
+                    commits.addAll(Arrays.asList(response.getBody()));
+                }
+                url = getNextPageUrl(response.getHeaders());
+                currentPage++;
             }
-            url = getNextPageUrl(response.getHeaders());
-            currentPage++;
+        } catch (Exception e) {
+            System.out.println("Error fetching commits: " + e.getMessage());
         }
         List<ParsedCommit> parsedCommits = parseCommits(commits, sinceCommits);
 

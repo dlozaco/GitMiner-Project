@@ -41,15 +41,19 @@ public class IssueService {
 
         Integer currentPage = 0;
         List<Issue> issues = new ArrayList<>();
-        while(url != null && currentPage < maxPages){
-            HttpEntity<Issue[]> request = new HttpEntity<>(null, headers);
-            System.out.println("Requesting: " + url);
-            ResponseEntity<Issue[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Issue[].class);
-            if(response.getBody()!= null) {
-                issues.addAll(Arrays.asList(response.getBody()));
+        try {
+            while (currentPage < maxPages) {
+                HttpEntity<Issue[]> request = new HttpEntity<>(null, headers);
+                System.out.println("Requesting: " + url);
+                ResponseEntity<Issue[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Issue[].class);
+                if (response.getBody() != null) {
+                    issues.addAll(Arrays.asList(response.getBody()));
+                }
+                url = getNextPageUrl(response.getHeaders());
+                currentPage++;
             }
-            url = getNextPageUrl(response.getHeaders());
-            currentPage++;
+        } catch (Exception e) {
+            System.out.println("Error fetching issues: " + e.getMessage());
         }
         List<ParsedIssue> allIssues = parseIssues(issues, sinceIssue);
         return allIssues;
