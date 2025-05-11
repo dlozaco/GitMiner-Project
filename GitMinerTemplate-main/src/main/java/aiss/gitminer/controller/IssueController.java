@@ -34,7 +34,7 @@ public class IssueController {
             tags = { "issues", "get all", "filter"}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Issue.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200", description = "Issues found", content = { @Content(schema = @Schema(implementation = Issue.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema()))
     })
     @GetMapping
@@ -72,7 +72,7 @@ public class IssueController {
             tags = { "issue", "get by id",}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Issue.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200", description = "Issue found", content = { @Content(schema = @Schema(implementation = Issue.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema()))
     })
     @GetMapping("/{id}")
@@ -91,7 +91,7 @@ public class IssueController {
             tags = { "issues", "get all", "filter"}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Issue.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200", description = "Issue found", content = { @Content(schema = @Schema(implementation = Issue.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema()))
     })
     @GetMapping("/{id}/comments")
