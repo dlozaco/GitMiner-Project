@@ -20,6 +20,9 @@ public class CommentService {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    UserService userService;
+
     public List<ParsedComment> getComments(String url) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -39,23 +42,13 @@ public class CommentService {
             String id = comment.getId().toString();
             String body = comment.getContent().getRaw();
             String createdAt = comment.getCreatedOn().toString();
-            String updatedAt = comment.getUpdatedOn() != null ? comment.getUpdatedOn().toString() : "No date";
-            ParsedUser author = parseUser(comment.getUser());
+            String updatedAt = comment.getUpdatedOn() != null ? comment.getUpdatedOn().toString() : null;
+            ParsedUser author = userService.parseUser(comment.getUser());
 
             ParsedComment parsedComment = new ParsedComment(id, body, createdAt, updatedAt, author);
             parsedComments.add(parsedComment);
         }
         return parsedComments;
-    }
-
-    private ParsedUser parseUser(User user) {
-        return new ParsedUser(
-                user.getUuid().toString(),
-                user.getDisplayName(),
-                user.getNickname(),
-                user.getLinks().getAvatar().getHref(),
-                user.getLinks().getHtml().getHref()
-        );
     }
 
 

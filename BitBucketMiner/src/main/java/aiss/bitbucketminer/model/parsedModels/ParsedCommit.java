@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ParsedCommit {
 
-    @JsonProperty("hash")
-    private String hash;
+    @JsonProperty("id")
+    private String id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("message")
@@ -22,11 +22,11 @@ public class ParsedCommit {
     private String webUrl;
 
     public String getHash() {
-        return hash;
+        return id;
     }
 
     public void setHash(String hash) {
-        this.hash = hash;
+        this.id = hash;
     }
 
     public String getTitle() {
@@ -77,8 +77,8 @@ public class ParsedCommit {
         this.webUrl = webUrl;
     }
 
-    public ParsedCommit(String hash, String title, String message, String author_name, String author_email, String authored_date, String webUrl) {
-        this.hash = hash;
+    public ParsedCommit(String id, String title, String message, String author_name, String author_email, String authored_date, String webUrl) {
+        this.id = id;
         this.title = title;
         this.message = message;
         this.author_name = author_name;
@@ -90,7 +90,7 @@ public class ParsedCommit {
     @Override
     public String toString() {
         return "ParsedCommit{" +
-                "hash='" + hash + '\'' +
+                "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", message='" + message + '\'' +
                 ", author_name='" + author_name + '\'' +

@@ -1,9 +1,7 @@
+package aiss.bitbucketminer.model.common;
 
-package aiss.bitbucketminer.model.commit;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
@@ -14,7 +12,7 @@ public class User {
     private Links links;
     @JsonProperty("type")
     private String type;
-    @JsonProperty("id")
+    @JsonProperty("uuid")
     private String uuid;
     @JsonProperty("account_id")
     private String accountId;
@@ -51,12 +49,12 @@ public class User {
         this.type = type;
     }
 
-    @JsonProperty("id")
+    @JsonProperty("uuid")
     public String getUuid() {
         return uuid;
     }
 
-    @JsonProperty("id")
+    @JsonProperty("uuid")
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
@@ -84,7 +82,7 @@ public class User {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(User.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(aiss.bitbucketminer.model.comment.User.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("displayName");
         sb.append('=');
         sb.append(((this.displayName == null)?"<null>":this.displayName));

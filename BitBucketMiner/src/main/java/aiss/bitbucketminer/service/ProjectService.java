@@ -7,6 +7,8 @@ import aiss.bitbucketminer.model.project.Project;
 import aiss.bitbucketminer.model.project.Repositories;
 import aiss.bitbucketminer.model.project.Workspace;
 import aiss.bitbucketminer.model.parsedModels.ParsedProject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -42,10 +44,12 @@ public class ProjectService {
         List<ParsedCommit> commits = commitService.getCommits(owner, repo);
         List<ParsedIssue> issues = issueService.getAllIssues(owner, repo);
 
+        String webUrl = project.getLinks().getHtml().getHref();
+
         ParsedProject parsedProject = new ParsedProject(
                 project.getUuid(),
                 project.getName(),
-                project.getLinks().getHtml().getHref(),
+                webUrl,
                 commits,
                 issues
 
@@ -56,8 +60,9 @@ public class ProjectService {
     public ParsedProject postProject(@PathVariable String owner, @PathVariable String repo) {
         ParsedProject newProject = null;
         ParsedProject project = getProject(owner, repo);
+
         try {
-            newProject = restTemplate.postForObject("http://localhost:8081/gitminer/projects", project, ParsedProject.class);
+            newProject = restTemplate.postForObject("http://localhost:8080/gitminer/projects", project, ParsedProject.class);
         } catch (Exception e) {
             System.err.println(e);
         }

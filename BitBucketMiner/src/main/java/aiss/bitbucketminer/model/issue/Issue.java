@@ -4,6 +4,9 @@ package aiss.bitbucketminer.model.issue;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import aiss.bitbucketminer.model.comment.Comment;
+import aiss.bitbucketminer.model.common.User;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Issue {
 
@@ -19,7 +22,7 @@ public class Issue {
     private String title;
     @JsonProperty("content")
     private Content content;
-    @JsonProperty("author")
+    @JsonProperty("reporter")
     private User author;
     @JsonProperty("assignee")
     private User assignee;

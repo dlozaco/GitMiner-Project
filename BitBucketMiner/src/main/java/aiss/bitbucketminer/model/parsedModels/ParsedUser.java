@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ParsedUser {
 
-    @JsonProperty("id")
+    @JsonProperty("uuid")
     private String id;
 
     @JsonProperty("username")
@@ -72,7 +72,7 @@ public class ParsedUser {
     @Override
     public String toString() {
         return "ParsedUser{" +
-                "id='" + id + '\'' +
+                "uuid='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", avatarUrl='" + avatarUrl + '\'' +

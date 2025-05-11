@@ -13,7 +13,7 @@ public class ParsedProject {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("html_url")
+    @JsonProperty("web_url")
     private String webUrl;
 
     @JsonProperty("commits")

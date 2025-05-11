@@ -3,6 +3,7 @@ package aiss.bitbucketminer.controller;
 import aiss.bitbucketminer.model.parsedModels.ParsedProject;
 import aiss.bitbucketminer.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,13 +17,14 @@ public class ProjectController {
     @Autowired
     RestTemplate restTemplate;
 
-    @GetMapping("/{owner}/{repo}")
-    public ParsedProject getProject(@PathVariable String owner, @PathVariable String repo) {
-        return projectService.getProject(owner, repo);
+    @GetMapping("/{workspace}/{repo}")
+    public ParsedProject getProject(@PathVariable String workspace, @PathVariable String repo) {
+        return projectService.getProject(workspace, repo);
     }
 
-    @PostMapping("/{owner}/{repo}")
-    public ParsedProject postToGitminer(@PathVariable String owner, @PathVariable String repo) {
-        return projectService.postProject(owner, repo);
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{workspace}/{repo}")
+    public ParsedProject postToGitminer(@PathVariable String workspace, @PathVariable String repo) {
+        return projectService.postProject(workspace, repo);
     }
 }

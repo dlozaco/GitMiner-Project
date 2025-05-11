@@ -25,6 +25,9 @@ public class IssueService {
     @Autowired
     CommentService commentService;
 
+    @Autowired
+    UserService userService;
+
     public List<ParsedIssue> getAllIssues(String owner, String repo) {
         String uri = "https://api.bitbucket.org/2.0/repositories/" + owner + "/" + repo + "/issues";
 
@@ -50,8 +53,8 @@ public class IssueService {
                     String closedAt = null;
                     List<String> labels = new ArrayList<>();
                     Integer votes = issue.getVotes(); //???
-                    ParsedUser author = parseUser(issue.getAuthor());
-                    ParsedUser assignee = parseUser(issue.getAssignee());
+                    ParsedUser author = userService.parseUser(issue.getAuthor());
+                    ParsedUser assignee = userService.parseUser(issue.getAssignee());
                     List<ParsedComment> comments= commentService.getComments(issue.getLinks().getComments().getHref());
 
                     ParsedIssue parsedIssue = new ParsedIssue(id, title, description, state, createdAt, updatedAt,
@@ -61,19 +64,6 @@ public class IssueService {
         return parsedIssues;
     }
 
-    public ParsedUser parseUser(User user) {
-        if (user == null) {
-            return new ParsedUser("No ID", "No Username", "No Name", "No Avatar", "No URL");
-        }
-
-        return new ParsedUser(
-                user.getUuid(),
-                user.getDisplayName(),
-                user.getNickname(),
-                user.getLinks().getAvatar().getHref(),
-                user.getLinks().getHtml().getHref()
-        );
-    }
 
 
 }
