@@ -33,6 +33,11 @@ public class CommitController {
             summary = "Retrieve all commits",
             tags = { "commits", "get all" }
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Commits found", content = { @Content(schema = @Schema(implementation = Commit.class),
+                    mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Commits not found", content = @Content(schema = @Schema()))
+    })
     @GetMapping
     public List<Commit> findAllCommits(@Parameter(description = "number of pages to show") @RequestParam(defaultValue = "0") int page,
                                        @Parameter(description = "size of pages") @RequestParam(defaultValue = "10") int size,

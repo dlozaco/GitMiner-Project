@@ -8,6 +8,10 @@ import aiss.gitminer.repository.CommentRepository;
 import aiss.gitminer.repository.IssueRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +38,10 @@ public class   CommentController {
             tags={"comments","get all"}
 
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Comments found", content = { @Content(schema = @Schema(implementation = Comment.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Comments not found", content = @Content(schema = @Schema()))
+    })
     @GetMapping
     public List<Comment> findAllComments(@Parameter(description = "number of pages to show") @RequestParam(defaultValue = "0") int page,
                                          @Parameter(description = "size of pages") @RequestParam(defaultValue = "10") int size,
@@ -62,6 +70,10 @@ public class   CommentController {
             summary = "Retrieve one comment by id",
             tags={"comments","get by id"}
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Comment found", content = { @Content(schema = @Schema(implementation = Comment.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Comment not found", content = @Content(schema = @Schema()))
+    })
     @GetMapping("/{id}")
     public Comment findCommentById(@Parameter(description = "id of the issue to search") @PathVariable (value="id") String commentId) throws ResourceNotFoundException {
 
