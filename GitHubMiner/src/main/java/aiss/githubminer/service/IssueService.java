@@ -41,14 +41,14 @@ public class IssueService {
 
         Integer currentPage = 0;
         List<Issue> issues = new ArrayList<>();
-        while(currentPage < maxPages){
-            String newUrl = "?page=" + currentPage;
+        while(url != null && currentPage < maxPages){
             HttpEntity<Issue[]> request = new HttpEntity<>(null, headers);
+            System.out.println("Requesting: " + url);
             ResponseEntity<Issue[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Issue[].class);
-            issues.addAll(Arrays.asList(response.getBody()));
-
-            if(issues.isEmpty()) break;
-            newUrl= url;
+            if(response.getBody()!= null) {
+                issues.addAll(Arrays.asList(response.getBody()));
+            }
+            url = getNextPageUrl(response.getHeaders());
             currentPage++;
         }
         List<ParsedIssue> allIssues = parseIssues(issues, sinceIssue);
@@ -99,5 +99,32 @@ public class IssueService {
                 user.getAvatarUrl(),
                 user.getHtmlUrl()
         );
+    }
+
+    public static String getNextPageUrl(HttpHeaders headers) {
+        String result = null;
+
+        // If there is no link header, return null
+        List<String> linkHeader = headers.get("Link");
+        if (linkHeader == null)
+            return null;
+
+        // If the header contains no links, return null
+        String links = linkHeader.getFirst();
+        if (links == null || links.isEmpty())
+            return null;
+
+        // Return the next page URL or null if none.
+        for (String token : links.split(", ")) {
+            if (token.endsWith("rel=\"next\"")) {
+                // Found the next page. This should look something like
+                // <https://api.github.com/repos?page=3&per_page=100>; rel="next"
+                int idx = token.indexOf('>');
+                result = token.substring(1, idx);
+                break;
+            }
+        }
+
+        return result;
     }
 }

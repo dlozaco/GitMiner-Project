@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,24 +32,20 @@ public class CommitService {
     String baseUri = "https://api.github.com/repos/";
 
     public List<ParsedCommit> getAllCommits(String owner, String repo, Integer sinceCommits, Integer maxPages) {
-        String url = baseUri + owner + "/" + repo + "/commits";
-
+        String url = baseUri + owner + "/" + repo + "/commits?per_page=" + maxPages;
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
 
         Integer currentPage = 0;
         List<Commit> commits = new ArrayList<>();
-        while(currentPage < maxPages){
-            String newUrl = url+"?page=" + currentPage;
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + token);
+        while(url != null && currentPage < maxPages){
             HttpEntity<Commit[]> request = new HttpEntity<>(null, headers);
-            System.out.println("Requesting: " + newUrl);
-            ResponseEntity<Commit[]> response = restTemplate.exchange(newUrl, HttpMethod.GET, request, Commit[].class);
-
-            commits.addAll(Arrays.asList(response.getBody()));
-            if(commits.isEmpty()) break;
-
-            newUrl= url;
+            System.out.println("Requesting: " + url);
+            ResponseEntity<Commit[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Commit[].class);
+            if(response.getBody()!= null) {
+                commits.addAll(Arrays.asList(response.getBody()));
+            }
+            url = getNextPageUrl(response.getHeaders());
             currentPage++;
         }
         List<ParsedCommit> parsedCommits = parseCommits(commits, sinceCommits);
@@ -84,5 +79,31 @@ public class CommitService {
             }
         }
         return res;
+    }
+    public static String getNextPageUrl(HttpHeaders headers) {
+        String result = null;
+
+        // If there is no link header, return null
+        List<String> linkHeader = headers.get("Link");
+        if (linkHeader == null)
+            return null;
+
+        // If the header contains no links, return null
+        String links = linkHeader.getFirst();
+        if (links == null || links.isEmpty())
+            return null;
+
+        // Return the next page URL or null if none.
+        for (String token : links.split(", ")) {
+            if (token.endsWith("rel=\"next\"")) {
+                // Found the next page. This should look something like
+                // <https://api.github.com/repos?page=3&per_page=100>; rel="next"
+                int idx = token.indexOf('>');
+                result = token.substring(1, idx);
+                break;
+            }
+        }
+
+        return result;
     }
 }
