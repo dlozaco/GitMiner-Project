@@ -4,7 +4,9 @@ package aiss.gitminer.controller;
 import aiss.gitminer.exception.ResourceNotFoundException;
 import aiss.gitminer.model.Comment;
 import aiss.gitminer.model.Issue;
+import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.IssueRepository;
+import aiss.gitminer.repository.ProjectRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +31,9 @@ public class IssueController {
 
     @Autowired
     IssueRepository issueRepository;
+
+    @Autowired
+    ProjectRepository projectRepository;
 
     @Operation(
             summary = "Retrieve a list of issues",
@@ -98,5 +105,91 @@ public class IssueController {
     public List<Comment>  getAllCommentsByIssueId(@Parameter(description = "id of the issue to search") @PathVariable String id) throws ResourceNotFoundException {
         Issue issue = getIssueById(id);
         return issue.getComments();
+    }
+
+
+    @Operation(
+            summary  = "Create a new issue",
+            tags = { "issue", "post" }
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Issue created", content = { @Content(schema = @Schema(implementation = Issue.class),
+                    mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema())),
+            @ApiResponse(responseCode = "404", description = "Project not found", content = @Content(schema = @Schema()))
+    })
+    @PostMapping("/{projectId}")
+    public Issue createIssue(@Parameter(description = "body of the project to be created")@Valid @RequestBody Issue issue,
+                             @Parameter(description = "projectId to make the new issue") @PathVariable(value = "projectId") String projectId)
+    throws ResourceNotFoundException{
+        Optional<Project> projectData = projectRepository.findById(projectId);
+        if (projectData.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+
+        Project project = projectData.get();
+        List<Issue> projectIssues = project.getIssues();
+        projectIssues.add(issue);
+        project.setIssues(projectIssues);
+
+        projectRepository.save(project);
+        return issue;
+
+    }
+
+
+    @Operation(
+            summary = "Update an issue",
+            tags = { "issue", "put"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Issue updated", content = { @Content(schema = @Schema(implementation = Issue.class),
+                    mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Issue not found", content = @Content(schema = @Schema()))
+    })
+    @PutMapping("/{id}")
+    public void updateIssue(@Parameter(description = "id of the issue to be updated")@PathVariable(value = "id") String id,
+                            @Parameter(description = "body of the issue to be updated")@Valid @RequestBody Issue body)
+    throws ResourceNotFoundException{
+        Optional<Issue> issueData = issueRepository.findById(id);
+        if(issueData.isEmpty()){
+            throw new ResourceNotFoundException();
+        }
+
+        Issue updatedIssue = issueData.get();
+        updatedIssue.setId(body.getId());
+        updatedIssue.setTitle(body.getTitle());
+        updatedIssue.setDescription(body.getDescription());
+        updatedIssue.setState(body.getState());
+        updatedIssue.setCreatedAt(body.getCreatedAt());
+        updatedIssue.setUpdatedAt(body.getUpdatedAt());
+        updatedIssue.setClosedAt(body.getClosedAt());
+        updatedIssue.setLabels(body.getLabels());
+        updatedIssue.setAuthor(body.getAuthor());
+        updatedIssue.setComments(body.getComments());
+        updatedIssue.setVotes(body.getVotes());
+        updatedIssue.setAssignee(body.getAssignee());
+
+
+        issueRepository.save(updatedIssue);
+    }
+
+
+    @Operation(
+            summary = "Delete an issue",
+            tags = { "issue", "delete" }
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Issue deleted", content = { @Content(schema = @Schema(implementation = Issue.class),
+                    mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Issue not found", content = @Content(schema = @Schema()))
+    })
+    @DeleteMapping("/{id}")
+    public void deleteIssue(@Parameter(description = "id of the issue to be deleted") @PathVariable(value = "id") String id) throws ResourceNotFoundException {
+        if(issueRepository.existsById(id)){
+            issueRepository.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException();
+        }
     }
 }
