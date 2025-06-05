@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +31,10 @@ import java.util.Optional;
 public class   CommentController {
 
     @Autowired
-    CommentRepository repository;
+    CommentRepository commentRepository;
+
+    @Autowired
+    IssueRepository issueRepository;
 
     //GET
     @Operation(
@@ -58,9 +62,9 @@ public class   CommentController {
         }
 
         if (authorId!=null){
-            pageComments= repository.findByAuthorId(authorId,paging);
+            pageComments= commentRepository.findByAuthorId(authorId,paging);
         } else{
-            pageComments= repository.findAll(paging);
+            pageComments= commentRepository.findAll(paging);
         }
         return pageComments.getContent();
     }
@@ -77,7 +81,7 @@ public class   CommentController {
     @GetMapping("/{id}")
     public Comment findCommentById(@Parameter(description = "id of the issue to search") @PathVariable (value="id") String commentId) throws ResourceNotFoundException {
 
-        Optional<Comment> iss= repository.findById(commentId);
+        Optional<Comment> iss= commentRepository.findById(commentId);
         if (iss.isEmpty()) {
             throw new ResourceNotFoundException();
         }
@@ -85,4 +89,77 @@ public class   CommentController {
 
     }
 
+    //POST
+    @Operation(
+            summary = "Create a new comment",
+            tags={"comments","post"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Comment created", content = { @Content(schema = @Schema(implementation = Comment.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema()))
+    })
+    @PostMapping("/{issueId}")
+    public Comment createComment(@Parameter(description = "body of the comment to be created") @Valid @RequestBody Comment comment,
+                                    @Parameter(description = "id of the issue to which the comment belongs") @PathVariable(value = "issueId") String issueId)
+    throws ResourceNotFoundException {
+        Optional<Issue> issueData = issueRepository.findById(issueId);
+        if(issueData.isEmpty()){
+            throw new ResourceNotFoundException();
+        }
+
+        Issue issue = issueData.get();
+        List<Comment> comments = issue.getComments();
+        comments.add(comment);
+        issue.setComments(comments);
+
+        issueRepository.save(issue);
+        return comment;
+    }
+
+    //PUT
+    @Operation(
+            summary = "Update a comment",
+            tags={"comments","put"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Comment updated", content = { @Content(schema = @Schema(implementation = Comment.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Comment not found", content = @Content(schema = @Schema()))
+    })
+    @PutMapping("/{id}")
+    public void updateComment(@Parameter(description = "id of the comment to be updated") @PathVariable(value = "id") String id,
+                              @Parameter(description = "body of the comment to be updated") @Valid @RequestBody Comment body)
+            throws ResourceNotFoundException {
+        Optional<Comment> commentData = commentRepository.findById(id);
+        if(commentData.isEmpty()){
+            throw new ResourceNotFoundException();
+        }
+
+        Comment comment = commentData.get();
+        comment.setId(body.getId());
+        comment.setBody(body.getBody());
+        comment.setAuthor(body.getAuthor());
+        comment.setCreatedAt(body.getCreatedAt());
+        comment.setUpdatedAt(body.getUpdatedAt());
+
+        commentRepository.save(comment);
+    }
+
+    //DELETE
+    @Operation(
+            summary = "Delete a comment",
+            tags={"comments","delete"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Comment deleted", content = { @Content(schema = @Schema(implementation = Comment.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Comment not found", content = @Content(schema = @Schema()))
+    })
+    @DeleteMapping("/{id}")
+    public void deleteComment(@Parameter(description = "id of the comment to be deleted") @PathVariable(value = "id") String id)
+            throws ResourceNotFoundException {
+        if(commentRepository.existsById(id)){
+            commentRepository.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException();
+        }
+    }
 }
