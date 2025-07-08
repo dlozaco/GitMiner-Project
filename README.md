@@ -1,6 +1,6 @@
 # GitMiner Project
 
-GitMiner es una herramienta de minería de datos para repositorios de GitHub desarrollada en Java. Permite extraer y analizar información clave de repositorios.
+GitMiner es una herramienta de minería de datos para repositorios de GitHub desarrollada en Java Spring Boot. Permite extraer y analizar información clave de repositorios.
 
 ## Características
 
@@ -20,7 +20,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
 
 1. Clona este repositorio:
     ```bash
-    git clone https://github.com/angelacarmona/GitMiner-Project.git
+    git clone https://github.com/dashkhe/GitMiner-Project.git
     ```
 
 2. Ve a la carpeta del proyecto:
@@ -51,4 +51,4 @@ Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
 
 ## Contacto
 
-Si tienes preguntas o sugerencias, no dudes en abrir un issue o contactarme en [GitHub](https://github.com/angelacarmona).
+Si tienes preguntas o sugerencias, no dudes en abrir un issue o contactarme en [GitHub](https://github.com/dashkhe).
